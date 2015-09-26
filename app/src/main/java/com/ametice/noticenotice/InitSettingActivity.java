@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class InitSettingActivity extends ActionBarActivity {
@@ -11,7 +13,37 @@ public class InitSettingActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.init_setting);
+
+        //送信間隔ボタン押下時のアクション
+        Button btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
+        btnSendSettin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //送信間隔設定画面の起動へ
+                startSendSettingActivity();
+
+            }
+        });
+
+        //送信先設定ボタン押下時のアクション
+        Button btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
+        btnInputAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //送信間隔設定画面の起動へ
+                startInputAddressActivity();
+
+            }
+        });
+
+        //On-Offスイッチのアクション
+
+
+
     }
 
 
