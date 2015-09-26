@@ -6,9 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.content.Intent;
 
 
 public class InitSettingActivity extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +20,15 @@ public class InitSettingActivity extends ActionBarActivity {
 
         //送信間隔ボタン押下時のアクション
         Button btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
-        btnSendSettin.setOnClickListener(new View.OnClickListener() {
+        btnSendSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //送信間隔設定画面の起動へ
-                startSendSettingActivity();
+                Intent intent = new Intent();
+                intent.setClassName("com.ametice.noticenotice", "com.ametice.noticenotice.SendSettingActivity");
+                startActivity(intent);
+
 
             }
         });
@@ -35,7 +40,7 @@ public class InitSettingActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 //送信間隔設定画面の起動へ
-                startInputAddressActivity();
+//                startInputAddressActivity();
 
             }
         });
