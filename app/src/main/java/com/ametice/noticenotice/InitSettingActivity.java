@@ -13,12 +13,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 
-public class InitSettingActivity extends ActionBarActivity {
+public class InitSettingActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //レイアウトファイルを指定
         setContentView(R.layout.init_setting);
 
         //送信間隔ボタン押下時のアクション
@@ -29,19 +30,23 @@ public class InitSettingActivity extends ActionBarActivity {
 
                 //送信間隔設定画面の起動へ
                 Intent intent = new Intent(getApplicationContext(),SendSettingActivity.class);
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/kemer-san/master
                 startActivity(intent);
             }
         });
 
         //送信先設定ボタン押下時のアクション
-        Button btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
+        final Button btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
         btnInputAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //送信間隔設定画面の起動へ
-//                startInputAddressActivity();
+            //送信間隔設定画面の起動へ
+                Intent intent = new Intent(getApplicationContext(),InputAddressActivity.class);
+                startActivity(intent);
 
             }
         });
