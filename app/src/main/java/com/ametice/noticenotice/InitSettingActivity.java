@@ -7,6 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.Toast;
 
 
 public class InitSettingActivity extends ActionBarActivity {
@@ -46,8 +49,22 @@ public class InitSettingActivity extends ActionBarActivity {
         });
 
         //On-Offスイッチのアクション
-
-
+        /* <memo by kemer-san>
+        ソースコード上ではSwitchもToggleButtonも一括してCompoundButtonとして扱います。
+        CompoundButtonはSwitchのように2つの状態を持つViewの抽象クラスで、状態の取得やリスナ関連の処理などが集約されており、
+        Switch、ToggleButton、CheckBoxなどはいずれもCompoundButtonを継承したサブクラスになっています。*/
+        CompoundButton swOnOff = (CompoundButton)findViewById(R.id.swOnOff);
+        swOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // 状態が変更されたときのアクション
+                if(isChecked) {
+                    Toast.makeText(InitSettingActivity.this, "通知機能がONになりました", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(InitSettingActivity.this, "通知機能がOFFになりました", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
