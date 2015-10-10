@@ -24,30 +24,26 @@ public class InitSettingActivity extends Activity {
         setContentView(R.layout.init_setting);
 
         //送信間隔ボタン押下時のアクション
-        Button btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
-                btnSendSetting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        final Button btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
+        btnSendSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                        //送信間隔設定画面の起動へ
-                        Intent intent = new Intent();
-                        intent.setClassName("com.ametice.noticenotice", "com.ametice.noticenotice.SendSettingActivity");
-                        startActivity(intent);
-
-
+                //送信間隔設定画面の起動へ
+                Intent intent = new Intent(getApplicationContext(),SendSettingActivity.class);
+                startActivity(intent);
             }
         });
 
         //送信先設定ボタン押下時のアクション
-        Button btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
+        final Button btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
         btnInputAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             //送信間隔設定画面の起動へ
-            Intent intent = new Intent();
-            intent.setClassName("com.ametice.noticenotice", "com.ametice.noticenotice.InputAddressActivity");
-            startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(),InputAddressActivity.class);
+                startActivity(intent);
 
             }
         });
