@@ -1,5 +1,6 @@
 package com.ametice.noticenotice;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 public class InitSettingActivity extends ActionBarActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,17 +22,15 @@ public class InitSettingActivity extends ActionBarActivity {
         setContentView(R.layout.init_setting);
 
         //送信間隔ボタン押下時のアクション
-        Button btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
+        final Button btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
         btnSendSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //送信間隔設定画面の起動へ
-                Intent intent = new Intent();
-                intent.setClassName("com.ametice.noticenotice", "com.ametice.noticenotice.SendSettingActivity");
+                Intent intent = new Intent(getApplicationContext(),SendSettingActivity.class);
+
                 startActivity(intent);
-
-
             }
         });
 
