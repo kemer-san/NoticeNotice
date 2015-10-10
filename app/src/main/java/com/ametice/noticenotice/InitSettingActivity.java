@@ -10,9 +10,10 @@ import android.content.Intent;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.app.Activity;
 
 
-public class InitSettingActivity extends ActionBarActivity {
+public class InitSettingActivity extends Activity {
 
 
     @Override
@@ -37,13 +38,15 @@ public class InitSettingActivity extends ActionBarActivity {
         });
 
         //送信先設定ボタン押下時のアクション
-        Button btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
-        btnInputAddress.setOnClickListener(new View.OnClickListener() {
+        Button btnInputAddress2 = (Button) findViewById(R.id.btnInputAddress);
+        btnInputAddress2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //送信間隔設定画面の起動へ
-//                startInputAddressActivity();
+                //送信先設定画面の起動へ
+                Intent intent2 = new Intent();
+                intent2.setClassName("com.ametice.noticenotice", "com.ametice.noticenotice.InputAddressActivity");
+                startActivity(intent2);
 
             }
         });
