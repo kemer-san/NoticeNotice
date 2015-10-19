@@ -57,6 +57,10 @@
             android:layout_weight="0.28" />
     </LinearLayout>
 
+<<<<<<< HEAD
 </LinearLayout>
 
 
+=======
+</LinearLayout>
+>>>>>>> kemer-san/master
