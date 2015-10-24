@@ -13,12 +13,13 @@
             android:layout_width="397dp"
             android:layout_height="111dp" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2"
-            android:layout_gravity="center_horizontal"
-            android:text="アドレスを入力してください" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="アドレスを入力してください"
+            android:id="@+id/lblInputAddress" />
+
     </LinearLayout>
 
     <EditText
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/txtEmailAddress"
         android:layout_gravity="center_horizontal" />
 
     <Space
@@ -53,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="次へ"
-            android:id="@+id/button"
+            android:id="@+id/btnSendMessage"
             android:layout_weight="0.28" />
     </LinearLayout>
 
