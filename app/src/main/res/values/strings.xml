@@ -3,7 +3,6 @@
 
     <string name="title_init_setting">init_setting</string>
     <string name="title_send_setting">send_setting</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>
