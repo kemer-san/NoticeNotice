@@ -7,6 +7,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <!-- 初期画面 -->
         <activity
             android:name=".InitSettingActivity"
             android:label="@string/title_init_setting" >
@@ -17,26 +19,26 @@
             </intent-filter>
         </activity>
 
+        <!-- 送信間隔設定 -->
         <activity
             android:name=".SendSettingActivity"
             android:label="@string/title_send_setting" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
+        <!-- 送信先設定 -->
         <activity
             android:name=".InputAddressActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
+        <!-- メッセージ画面 -->
+        <activity
+            android:name=".MessageActivity"
+            android:label="message_activity">
+
+        </activity>
+        
     </application>
 
 </manifest>
