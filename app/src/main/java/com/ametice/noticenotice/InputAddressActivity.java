@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
+ * メールアドレス入力画面
+ *
  * Created by Masato on 2015/09/26.
  */
 public class InputAddressActivity extends Activity {
@@ -27,6 +32,28 @@ public class InputAddressActivity extends Activity {
         txtEmailAddress = (EditText) findViewById(R.id.txtEmailAddress);
     }
 
+    /**
+     * メールアドレス入力欄の入力にフィルタをセットする
+     */
+    private void setInputFilter() {
+
+        if (txtEmailAddress == null) return;
+
+        InputFilter filter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                if (source.toString().matches("^[0-9a-zA-Z@¥.¥_¥¥-]+$")) {
+                    return source;
+                } else {
+                    return "";
+                }
+            }
+        };
+
+        txtEmailAddress.setFilters(new InputFilter[]{filter});
+    }
+
     // endregion
 
     @Override
@@ -38,6 +65,12 @@ public class InputAddressActivity extends Activity {
 
         //　コンポーネントのハンドラを取得
         findComponents();
+
+        // 入力フィルタをセット
+        setInputFilter();
+
+        // 入力済みのアドレスをセットする
+        setExistingAddress();
 
         //次へボタン押下時のアクション
         btnSendMessage.setOnClickListener(btnSendMessageOnClickListener);
@@ -51,6 +84,16 @@ public class InputAddressActivity extends Activity {
             // 入力されたメールアドレスの取得
             String inputAddress = txtEmailAddress.getText().toString();
 
+            // 入力が空ならトーストを表示する
+            if (inputAddress.length() < 1) {
+                Toast
+                        .makeText(InputAddressActivity.this, "アドレスが空です", Toast.LENGTH_SHORT)
+                        .show();
+
+                // イベント処理を抜ける
+                return;
+            }
+
             // メールアドレスの入力チェック・エラーメッセージの表示
             if (!isValidEmailAddress(inputAddress)) {
                 // 入力されたメールアドレスが不正だった場合
@@ -62,17 +105,40 @@ public class InputAddressActivity extends Activity {
                 return;
             }
 
+            // 登録されているアドレスと比較する
+            // 設定クラスを生成する
+            NoticeSaveData saveData = new NoticeSaveData(getApplicationContext());
 
-            // メッセージ画面の起動
-            Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+            if (inputAddress.equals(saveData.loadUserAddress())) {
+                // 内部データと同じ場合
 
-            intent.putExtra("EmailAddress","notice@notice.com");
+//                Intent intent = new Intent(getApplicationContext(),InputPasscodeActivity.class);
+//                startActivity(intent);
 
-            // 画面の呼び出し
-            startActivity(intent);
+            } else {
+                // 内部データと異なっている場合
+
+                // メッセージ画面の起動
+                Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+
+                intent.putExtra("EmailAddress", inputAddress);
+                intent.putExtra("Mode", this.getClass().getName());
+
+                // 画面の呼び出し
+                startActivity(intent);
+            }
         }
     };
 
+    /**
+     * すでにアドレスが登録されている場合、画面にセットする
+     */
+    private void setExistingAddress() {
+
+        NoticeSaveData saveData = new NoticeSaveData(getApplicationContext());
+
+        txtEmailAddress.setText(saveData.loadUserAddress());
+    }
 
     /**
      * メールアドレスの入力チェックを行います。
@@ -83,7 +149,8 @@ public class InputAddressActivity extends Activity {
     private boolean isValidEmailAddress(String target) {
         // TODO 既存のバリデータがあれば、それを使う
 
-        return true;
+        String EmailRegEx = "^[a-zA-Z0-9!#$%&'_`/=~\\*\\+\\-\\?\\^\\{\\|\\}]+(\\.[a-zA-Z0-9!#$%&'_`/=~\\*\\+\\-\\?\\^\\{\\|\\}]+)*+(.*)@[a-zA-Z0-9][a-zA-Z0-9\\-]*(\\.[a-zA-Z0-9\\-]+)+$";
+        return target.matches(EmailRegEx);
     }
 
     /**
