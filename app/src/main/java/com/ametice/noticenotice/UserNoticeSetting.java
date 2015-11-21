@@ -9,7 +9,7 @@ import android.widget.TimePicker;
 import java.util.HashMap;
 
 /**
- * クラス名 ：UserSetting
+ * クラス名 ：UserNoticeSetting
  * 説明    ：ダイアログで取得した設定値を端末内部へ保存する
  * 最終更新 :2015/11/15
  * @version 1.0

@@ -1,7 +1,6 @@
 package com.ametice.noticenotice;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.Toast;
 
 
@@ -50,6 +48,11 @@ public class InitSettingActivity extends Activity {
 
         // OnOffスイッチのアクションをセット
         swOnOff.setOnCheckedChangeListener(swOnOffOnCheckedChangeListener);
+
+        /*   ユーザーの設定値のチェックと初期化   */
+        NoticeSaveData nsd = new NoticeSaveData(this);
+        nsd.checkUserData();
+
     }
 
 
