@@ -3,9 +3,10 @@ package com.ametice.noticenotice;
 import android.content.Context;
 
 /**
- * クラス名 ：NoticeNotice内部データ参照クラス
- * 説明    ：NOticeNoticeで使用するデータの保存・読み出しを行う
- * @version 1.0
+ * クラス名 ：NoticeSaveData
+ * 説明    ：NoticeNoticeで使用するデータの保存・読み出しを行う
+ * 最終更新 :2015/11/21
+ * @version 1.1
  * @author  Y.Hiyoshi(ametis)
  */
 public class NoticeSaveData extends PreferencesManager {
@@ -45,6 +46,11 @@ public class NoticeSaveData extends PreferencesManager {
     private static final String NOTICE_SETTING_FRIDAY = "NOTICE_SETTING_FRIDAY";
     private static final String NOTICE_SETTING_SATURDAY = "NOTICE_SETTING_SATURDAY";
     private static final String NOTICE_SETTING_SUNDAY = "NOTICE_SETTING_SUNDAY";
+
+    /*  初期化用    */
+    private static final String INIT_STARTTIME = "9:0";
+    private static final String INIT_ENDTIME = "18:0";
+    private static final String INIT_INTERVAL = "60";
 
     /**
      * コンストラクタ
@@ -169,6 +175,70 @@ public class NoticeSaveData extends PreferencesManager {
             case SATURDAY:return "NOTICE_SETTING_SATURDAY";
             case SUNDAY:return "NOTICE_SETTING_SUNDAY";
             default:return "";
+        }
+    }
+
+    /**
+     * 端末内の設定値のチェック
+     */
+    public void checkUserData(){
+
+        try {
+            int cnt = 0;
+            boolean dayOfWeek[] = new boolean[7];
+
+            /*  曜日の設定状況の取得  */
+            for(int i = 0; i < 7; i++){
+                if(loadDayOfWeek(i) == true)cnt++;
+            }
+
+            /*  未設定の場合  */
+            if(cnt == 0) {
+                /*  全ての曜日の保存領域の生成  */
+                for(int i = 0; i < 7; i++) saveDayOfWeek(i, false);
+                /*  月曜日を設定  */
+                saveDayOfWeek(MONDAY, true);
+            }
+
+        /*  エラーの場合  */
+        }catch (Exception e){
+            /*  全ての曜日の保存領域の生成  */
+            for(int i = 0; i < 7; i++) saveDayOfWeek(i, false);
+            /*  月曜日を設定  */
+            saveDayOfWeek(MONDAY, true);
+        }
+
+        try {
+            /*  開始時刻の設定状況の取得  */
+            if(loadStartTime().equals("") == true){
+                /*  未設定の場合は固定の時刻を設定   */
+                saveStartTime(INIT_STARTTIME);
+            }
+        }catch (Exception e){
+            /*  エラーの場合は固定の時刻を設定   */
+            saveStartTime(INIT_STARTTIME);
+        }
+
+        try {
+            /*  終了時刻の設定状況の取得  */
+            if(loadEndTime().equals("") == true){
+                /*  未設定の場合は任意の時刻を設定   */
+                saveEndTime(INIT_ENDTIME);
+            }
+        }catch (Exception e){
+            /*  エラーの場合は固定の時刻を設定   */
+            saveEndTime(INIT_ENDTIME);
+        }
+
+        try {
+            /*  確認間隔の設定状況の取得  */
+            if(loadCheckInterval().equals("") == true){
+               /*  未設定の場合は固定の確認間隔を設定   */
+                saveCheckInterval(INIT_INTERVAL);
+            }
+        }catch (Exception e){
+            /*  エラーの場合は固定の確認間隔を設定   */
+            saveCheckInterval(INIT_INTERVAL);
         }
     }
 }
