@@ -1,83 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:gravity="center_horizontal"
-    android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:layout_height="match_parent">
+
+<Space
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.38"/>
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.07">
 
     <Space
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.2"/>
+
+    <TextView
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.38"/>
+        android:text="設定"
+        android:id="@+id/textView"
+        android:textSize="25dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.07">
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.2" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.2"/>
+    <Switch
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="On/Off"
+        android:textSize="21dp"
+        android:id="@+id/swOnOff"
+        android:nestedScrollingEnabled="true" />
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="設定"
-            android:id="@+id/textView"
-            android:textSize="25dp" />
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"/>
+</LinearLayout>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.2" />
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.59">
 
-        <Switch
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="On/Off"
-            android:textSize="21dp"
-            android:id="@+id/swOnOff"
-            android:nestedScrollingEnabled="true" />
+    <Space
+        android:layout_width="20px"
+        android:layout_height="105dp" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"/>
-    </LinearLayout>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></TableRow>
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.59">
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></TableRow>
 
-        <Space
-            android:layout_width="20px"
-            android:layout_height="105dp" />
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
             <Space
                 android:layout_width="20px"
@@ -128,5 +127,3 @@
         </TableRow>
     </TableLayout>
 </LinearLayout>
-
-
