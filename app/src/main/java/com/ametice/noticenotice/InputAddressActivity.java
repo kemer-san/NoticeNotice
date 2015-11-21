@@ -112,8 +112,8 @@ public class InputAddressActivity extends Activity {
             if (inputAddress.equals(saveData.loadUserAddress())) {
                 // 内部データと同じ場合
 
-//                Intent intent = new Intent(getApplicationContext(),InputPasscodeActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), InputPasscodeActivity.class);
+                startActivity(intent);
 
             } else {
                 // 内部データと異なっている場合
@@ -122,7 +122,7 @@ public class InputAddressActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
 
                 intent.putExtra("EmailAddress", inputAddress);
-                intent.putExtra("Mode", this.getClass().getName());
+                intent.putExtra("Mode", InputAddressActivity.class.getName());
 
                 // 画面の呼び出し
                 startActivity(intent);
