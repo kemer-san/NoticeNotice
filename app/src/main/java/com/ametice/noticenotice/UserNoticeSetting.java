@@ -15,33 +15,32 @@ import java.util.HashMap;
  * @version 1.0
  * @author  Y.Hiyoshi(ametis)
  */
-public class UserSetting {
+public class UserNoticeSetting {
 
     Context context;
 
+    /*  曜日リスト    */
     HashMap<Integer,String> dayOfWeekList = new HashMap<Integer,String>();
 
     /*  曜日チェックの状態    */
-    static boolean dayOfWeekChecks[] = new boolean[7];
+    private boolean dayOfWeekChecks[] = new boolean[7];
 
     /*  開始時刻    */
-    static int setStartHour;
-    static int setStartMinute;
+    private int startTimeHour = 0;
+    private int startTimeMinute = 0;
 
     /*  終了時刻    */
-    static int setEndHour;
-    static int setEndMinute;
+    private int endTimeHour = 0;
+    private int endTimeMinute = 0;
 
     /*  確認間隔   */
-    static int setInterval;
-
-    TextView tv;
+    private int interval = 0;
 
     /**
      * コンストラクタ
      * @param context コンテキスト
      */
-    public  UserSetting(Context context){
+    public  UserNoticeSetting(Context context){
         this.context = context;
 
         /*  曜日リストの生成    */
@@ -53,9 +52,37 @@ public class UserSetting {
         dayOfWeekList.put(5, "土");
         dayOfWeekList.put(6, "日");
 
-        /*  端末内部から既存の設定値を取得    */
-        //stub
+        /*  前回値を選択済みにする    */
+        for(int i = 0; i < 7; i++){
+            dayOfWeekChecks[i] = new NoticeSaveData(this.context).loadDayOfWeek(i);
+        }
 
+        try {
+             /*  前回値を設定する  */
+            String splitStartTime[] = new NoticeSaveData(this.context).loadStartTime().split(":", 2);
+            startTimeHour = Integer.parseInt(splitStartTime[0]);
+            startTimeMinute = Integer.parseInt(splitStartTime[1]);
+        }catch (Exception e){
+            endTimeHour = 0;
+            startTimeMinute = 0;
+        }
+
+        try {
+            /*  前回値を設定する  */
+            String splitEndTime[] = new NoticeSaveData(this.context).loadEndTime().split(":", 2);
+            endTimeHour = Integer.parseInt(splitEndTime[0]);
+            endTimeMinute = Integer.parseInt(splitEndTime[1]);
+        }catch (Exception e){
+            startTimeHour = 0;
+            startTimeMinute = 0;
+        }
+
+        try {
+            /*  前回値を設定する  */
+            interval = Integer.parseInt(new NoticeSaveData(this.context).loadCheckInterval());
+        }catch(Exception e){
+            interval = 60;
+        }
     }
 
     /**
@@ -65,27 +92,48 @@ public class UserSetting {
 
         final TextView msg = tv;
 
+        /*  確定前曜日情報 */
+        final boolean tempChecks[] = new boolean[7];
+
+        /*  既存の曜日情報をコピー  */
+        for(int i = 0; i < 7; i++){
+            tempChecks[i] = dayOfWeekChecks[i];
+        }
+
         /*  ダイアログ設定 */
         AlertDialog.Builder checkDlg = new AlertDialog.Builder(this.context);
-        checkDlg.setTitle("確認開始時刻");
+
+        /*  タイトル設定  */
+        checkDlg.setTitle("曜日指定");
 
         /*  項目名 */
         final CharSequence[] chkItems = {"月曜日", "火曜日", "水曜日","木曜日", "金曜日", "土曜日", "日曜日"};
 
+        /*  曜日選択ダイアログの生成   */
         checkDlg.setMultiChoiceItems(
                 chkItems,
-                dayOfWeekChecks,
+                tempChecks,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog, int which, boolean flag) {
                         /*  各曜日のチェック状態を格納  */
-                        dayOfWeekChecks[which] = flag;
-
-                        /*   メッセージ変更   */
-                        msg.setText(getDayOfWeekText());
-
+                        tempChecks[which]=flag;
                     }
                 }
         );
+
+        /*  OKボタンを定義    */
+        checkDlg.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                /*  曜日情報を格納  */
+                for(int i = 0; i < 7; i++){
+                    dayOfWeekChecks[i] = tempChecks[i];
+                }
+                /*   メッセージ変更   */
+                msg.setText(getDayOfWeekText());
+            }
+        });
+
         /*  ダイアログ表示  */
         checkDlg.create().show();
     }
@@ -103,17 +151,20 @@ public class UserSetting {
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int setHour, int SetMinute) {
                     /*   開始時刻を格納   */
-                    setStartHour = setHour;
-                    setStartMinute = SetMinute;
+                    startTimeHour = setHour;
+                    startTimeMinute = SetMinute;
 
                     /*   メッセージ変更   */
                     msg.setText(getStartTimeText());
                 }
             },
-            setStartHour,
-            setStartMinute,
+            startTimeHour,
+            startTimeMinute,
             true
         );
+
+        /*  タイトル設定  */
+        timepickDlg.setTitle("確認開始時刻");
 
         /*  ダイアログ表示  */
         timepickDlg.show();
@@ -132,17 +183,20 @@ public class UserSetting {
                 new TimePickerDialog.OnTimeSetListener() {
                     public void onTimeSet(TimePicker view, int setHour, int SetMinute) {
                         /*   開始時刻を格納   */
-                        setEndHour = setHour;
-                        setEndMinute = SetMinute;
+                        endTimeHour = setHour;
+                        endTimeMinute = SetMinute;
 
                         /*   メッセージ変更   */
                         msg.setText(getEndTimeText());
                     }
                 },
-                setEndHour,
-                setEndMinute,
+                endTimeHour,
+                endTimeMinute,
                 true
         );
+
+        /*  タイトル設定  */
+        timepickDlg.setTitle("確認終了時刻");
 
         /*  ダイアログ表示  */
         timepickDlg.show();
@@ -158,33 +212,35 @@ public class UserSetting {
         /*  ダイアログ設定 */
         AlertDialog.Builder listDlg = new AlertDialog.Builder(context);
 
+        /*  タイトル設定  */
         listDlg.setTitle("確認間隔");
 
          /*  項目名 */
         final CharSequence[] items = {"5分", "10分", "15分", "30分", "60分"};
 
+        /*  確認間隔設定ダイアログ生成   */
         listDlg.setItems(
                 items,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                setInterval = 5;
+                                interval = 5;
                                 break;
                             case 1:
-                                setInterval = 10;
+                                interval = 10;
                                 break;
                             case 2:
-                                setInterval = 15;
+                                interval = 15;
                                 break;
                             case 3:
-                                setInterval = 30;
+                                interval = 30;
                                 break;
                             case 4:
-                                setInterval = 60;
+                                interval = 60;
                                 break;
                             default:
-                                setInterval = 60;
+                                interval = 60;
                                 break;
                         }
 
@@ -203,18 +259,22 @@ public class UserSetting {
     public String getDayOfWeekText(){
 
         int i = 0;
+        int cnt = 0;
         String allDayOfWeek;
         StringBuilder strb = new StringBuilder();
 
         for(i = 0; i < 7; i++){
             if(dayOfWeekChecks[i] == true){
-                strb.append(dayOfWeekList.get(i) + ",");
+                strb.append(dayOfWeekList.get(i));
+                cnt++;
             }
         }
 
+        /*  文字列のコピー */
         allDayOfWeek = strb.toString();
 
-        if(i == 0){
+        /*  文字列のコピー */
+        if(cnt == 0){
             allDayOfWeek = "none";
         }
 
@@ -225,21 +285,21 @@ public class UserSetting {
      * 設定された確認開始時刻の文字列取得メソッド
      */
     public String getStartTimeText(){
-        return Integer.toString(setStartHour) + ":" + Integer.toString(setStartMinute);
+        return String.format("%1$02d", startTimeHour) + ":" + String.format("%1$02d", startTimeMinute);
     }
 
     /**
      * 設定された確認終了時刻の文字列取得メソッド
      */
     public String getEndTimeText(){
-        return Integer.toString(setEndHour) + ":" + Integer.toString(setEndMinute);
+        return String.format("%1$02d", endTimeHour) + ":" + String.format("%1$02d", endTimeMinute);
     }
 
     /**
      * 設定された確認間隔の文字列取得メソッド
      */
     public String getIntervalText(){
-        return Integer.toString(setInterval) + "分";
+        return Integer.toString(interval) + "分";
     }
 
     /**
@@ -252,12 +312,22 @@ public class UserSetting {
         for(int i = 0; i < 7; i++) nsd.saveDayOfWeek(i, dayOfWeekChecks[i]);
 
         /*  端末内部へ確認開始時刻の保存   */
-        nsd.saveStartTime(Integer.toString(setStartHour) + ":" + Integer.toString(setStartMinute));
+        nsd.saveStartTime(toTimeFormat(startTimeHour, startTimeMinute));
 
         /*  端末内部へ確認終了時刻の保存   */
-        nsd.saveEndTime(Integer.toString(setEndHour) + ":" + Integer.toString(setEndMinute));
+        nsd.saveEndTime(toTimeFormat(endTimeHour, endTimeMinute));
 
         /*  端末内部へ確認間隔の保存   */
-        nsd.saveCheckInterval(Integer.toString(setInterval));
+        nsd.saveCheckInterval(Integer.toString(interval));
+    }
+
+    /**
+     * 表示用時刻フォーマット変換
+     * @param hour 時間
+     * @param minute 分
+     * @return 表示用時刻文字列
+     */
+    private String toTimeFormat(int hour, int minute){
+        return Integer.toString(hour) + ":" + Integer.toString(minute);
     }
 }
