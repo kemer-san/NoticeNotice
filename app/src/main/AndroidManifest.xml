@@ -41,7 +41,7 @@
 
         <!-- パスコード入力画面 -->
         <activity
-            android:name=".InputPassCode"
+            android:name=".InputPasscodeActivity"
             android:label="@string/app_name">
 
         </activity>
