@@ -38,7 +38,14 @@
             android:label="message_activity">
 
         </activity>
-        
+
+        <!-- パスコード入力画面 -->
+        <activity
+            android:name=".InputPassCode"
+            android:label="@string/app_name">
+
+        </activity>
+
     </application>
 
 </manifest>
