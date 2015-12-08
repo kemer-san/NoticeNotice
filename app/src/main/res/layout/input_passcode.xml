@@ -22,6 +22,8 @@ android:layout_height="match_parent">
             android:text="パスコードを入力してください"
             android:id="@+id/lblInputAddress"
             android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_weight="0.2" />
 
     </LinearLayout>
