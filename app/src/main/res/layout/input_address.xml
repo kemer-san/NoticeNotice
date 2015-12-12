@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="アドレスを入力してください"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:id="@+id/lblInputAddress" />
 
     </LinearLayout>
