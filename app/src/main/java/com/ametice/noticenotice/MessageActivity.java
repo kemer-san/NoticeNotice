@@ -59,13 +59,13 @@ public class MessageActivity extends Activity {
         /* 前画面のクラス名を取得   */
         String className = intent.getStringExtra("Mode");
 
-        if(className.equals(InputAddressActivity.class.getName()) == true ){
+        if(className.equals(InputAddressActivity.class.getName())){
             _Mode = Mode.Confirm;
         }else{
             _Mode = Mode.Complete;
         }
 
-        /*  アドレス送信画面からの遷移   */
+        /*  アドレス入力画面からの遷移   */
         if (_Mode == Mode.Confirm) {
             onConfirmMode();
         }
@@ -154,12 +154,7 @@ public class MessageActivity extends Activity {
      * @return code パスコード
      */
     private String createPassCode(){
-        String code = new String();
 
-        for(int i = 0; i < 4; i++){
-            code += String.valueOf((int)(Math.random()*10));
-        }
-
-        return code;
+        return String.format("%04d", (int) (Math.random() * 10000));
     }
 }
