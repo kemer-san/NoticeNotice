@@ -112,7 +112,7 @@ public class InputAddressActivity extends Activity {
             if (inputAddress.equals(saveData.loadUserAddress())) {
                 // 内部データと同じ場合
 
-                Intent intent = new Intent(getApplicationContext(), InputPasscodeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InputPassCodeActivity.class);
                 startActivity(intent);
 
             } else {

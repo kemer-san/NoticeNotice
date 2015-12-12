@@ -110,7 +110,7 @@ public class MessageActivity extends Activity {
                 nsd.saveUserPassCode(passCode);
 
                 // パスコード入力画面へ遷移
-                Intent intent = new Intent(getApplicationContext(), InputPasscodeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InputPassCodeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
