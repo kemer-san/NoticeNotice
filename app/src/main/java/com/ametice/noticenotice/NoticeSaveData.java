@@ -6,7 +6,7 @@ import android.content.Context;
  * クラス名 ：NoticeSaveData
  * 説明    ：NoticeNoticeで使用するデータの保存・読み出しを行う
  * 最終更新 :2015/11/21
- * @version 1.1
+ * @version 1.2
  * @author  Y.Hiyoshi(ametis)
  */
 public class NoticeSaveData extends PreferencesManager {
@@ -30,13 +30,13 @@ public class NoticeSaveData extends PreferencesManager {
     public static final String NOTICE_SETTING_CHECK_INTERVAL = "NOTICE_SETTING_CHECK_INTERVAL";
 
     /*  曜日   */
-    public static final int MONDAY = 0;
-    public static final int THUSDAY = 1;
-    public static final int WEDNESDAY = 2;
-    public static final int THURSDAY = 3;
-    public static final int FRIDAY = 4;
-    public static final int SATURDAY = 5;
-    public static final int SUNDAY = 6;
+    public static final int SUNDAY = 1;
+    public static final int MONDAY = 2;
+    public static final int THUSDAY = 3;
+    public static final int WEDNESDAY = 4;
+    public static final int THURSDAY = 5;
+    public static final int FRIDAY = 6;
+    public static final int SATURDAY = 7;
 
     /*  曜日キー   */
     private static final String NOTICE_SETTING_MONDAY = "NOTICE_SETTING_MONDAY";
@@ -167,13 +167,13 @@ public class NoticeSaveData extends PreferencesManager {
      */
     private String toDayOfWeekKey(int dayOfWeek){
         switch (dayOfWeek) {
+            case SUNDAY:return "NOTICE_SETTING_SUNDAY";
             case MONDAY:return  "NOTICE_SETTING_MONDAY";
             case THUSDAY:return "NOTICE_SETTING_THUSDAY";
             case WEDNESDAY:return "NOTICE_SETTING_WEDNESDAY";
             case THURSDAY:return "NOTICE_SETTING_THURSDAY";
             case FRIDAY:return "NOTICE_SETTING_FRIDAY";
             case SATURDAY:return "NOTICE_SETTING_SATURDAY";
-            case SUNDAY:return "NOTICE_SETTING_SUNDAY";
             default:return "";
         }
     }
