@@ -3,6 +3,7 @@ package com.ametice.noticenotice;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
 
@@ -38,7 +39,21 @@ public class InputPassCodeActivity extends Activity {
 
         // イベントリスナの設定
         btnSendMessage.setOnClickListener(onSendMessageClick);
+        btnBackToSetting.setOnClickListener(onBackToSettingeClick);
 
+    }
+
+    /**
+     * 戻るボタンを無効にする。
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction()==KeyEvent.ACTION_DOWN) {
+            if(event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                return false;
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     /**
@@ -59,7 +74,7 @@ public class InputPassCodeActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
 
                 // Modeに自画面のクラス名を設定
-                intent.putExtra("Mode", InputAddressActivity.class.getName());
+                intent.putExtra("Mode", InputPassCodeActivity.class.getName());
 
                 // 画面の呼び出し
                 startActivity(intent);
@@ -74,6 +89,19 @@ public class InputPassCodeActivity extends Activity {
                                 Toast.LENGTH_SHORT)
                         .show();
             }
+        }
+    };
+
+    /**
+     * 初期画面戻りボタンクリックリスナ
+     */
+    private View.OnClickListener onBackToSettingeClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // 初期画面へ遷移
+            Intent intent = new Intent(getApplicationContext(), InitSettingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     };
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,6 +41,19 @@ public class MessageActivity extends Activity {
         msgText1 = (TextView) findViewById(R.id.msg_text1);
         msgText2 = (TextView) findViewById(R.id.msg_text2);
         btn = (Button) findViewById(R.id.btnMessage);
+    }
+
+    /**
+     * 戻るボタンを無効にする。
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction()==KeyEvent.ACTION_DOWN) {
+            if(event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                return false;
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -111,7 +125,7 @@ public class MessageActivity extends Activity {
 
                 // パスコード入力画面へ遷移
                 Intent intent = new Intent(getApplicationContext(), InputPassCodeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //新規Activityを呼び出すときにやってもスタックはクリアされない
                 startActivity(intent);
 
             }
