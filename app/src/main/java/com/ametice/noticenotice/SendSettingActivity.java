@@ -13,7 +13,7 @@ import java.util.HashMap;
  * Created by Masato on 2015/09/26.
  * 送信設定画面の動作
  * 最終更新 :2015/11/21 y.hiyoshi
- * @version 1.1
+ * @version 1.2
  */
 public class SendSettingActivity extends Activity {
 
@@ -137,15 +137,16 @@ public class SendSettingActivity extends Activity {
         HashMap<Integer,String> dayOfWeekList = new HashMap<Integer,String>();
 
         /*  曜日リストの生成    */
-        dayOfWeekList.put(0, "月");
-        dayOfWeekList.put(1, "火");
-        dayOfWeekList.put(2, "水");
-        dayOfWeekList.put(3, "木");
-        dayOfWeekList.put(4, "金");
-        dayOfWeekList.put(5, "土");
-        dayOfWeekList.put(6, "日");
+        dayOfWeekList.put(1, "日");
+        dayOfWeekList.put(2, "月");
+        dayOfWeekList.put(3, "火");
+        dayOfWeekList.put(4, "水");
+        dayOfWeekList.put(5, "木");
+        dayOfWeekList.put(6, "金");
+        dayOfWeekList.put(7, "土");
 
-        for(int i = 0; i < 7; i++){
+        /*  前回値を表示する（日〜土[1-7]）    */
+        for(int i = 1; i <= 7; i++){
             if(new NoticeSaveData(context).loadDayOfWeek(i) == true){
                 strb.append(dayOfWeekList.get(i));
                 cnt++;

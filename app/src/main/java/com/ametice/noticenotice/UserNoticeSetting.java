@@ -12,7 +12,7 @@ import java.util.HashMap;
  * クラス名 ：UserNoticeSetting
  * 説明    ：ダイアログで取得した設定値を端末内部へ保存する
  * 最終更新 :2015/11/15
- * @version 1.0
+ * @version 1.1
  * @author  Y.Hiyoshi(ametis)
  */
 public class UserNoticeSetting {
@@ -44,17 +44,17 @@ public class UserNoticeSetting {
         this.context = context;
 
         /*  曜日リストの生成    */
-        dayOfWeekList.put(0, "月");
-        dayOfWeekList.put(1, "火");
-        dayOfWeekList.put(2, "水");
-        dayOfWeekList.put(3, "木");
-        dayOfWeekList.put(4, "金");
-        dayOfWeekList.put(5, "土");
-        dayOfWeekList.put(6, "日");
+        dayOfWeekList.put(1, "日");
+        dayOfWeekList.put(2, "月");
+        dayOfWeekList.put(3, "火");
+        dayOfWeekList.put(4, "水");
+        dayOfWeekList.put(5, "木");
+        dayOfWeekList.put(6, "金");
+        dayOfWeekList.put(7, "土");
 
-        /*  前回値を選択済みにする    */
+        /*  前回値を選択済みにする（日〜土[1-7]）    */
         for(int i = 0; i < 7; i++){
-            dayOfWeekChecks[i] = new NoticeSaveData(this.context).loadDayOfWeek(i);
+            dayOfWeekChecks[i] = new NoticeSaveData(this.context).loadDayOfWeek(i + 1);
         }
 
         try {
@@ -107,7 +107,7 @@ public class UserNoticeSetting {
         checkDlg.setTitle("曜日指定");
 
         /*  項目名 */
-        final CharSequence[] chkItems = {"月曜日", "火曜日", "水曜日","木曜日", "金曜日", "土曜日", "日曜日"};
+        final CharSequence[] chkItems = {"日曜日", "月曜日", "火曜日", "水曜日","木曜日", "金曜日", "土曜日"};
 
         /*  曜日選択ダイアログの生成   */
         checkDlg.setMultiChoiceItems(
@@ -265,7 +265,7 @@ public class UserNoticeSetting {
 
         for(i = 0; i < 7; i++){
             if(dayOfWeekChecks[i] == true){
-                strb.append(dayOfWeekList.get(i));
+                strb.append(dayOfWeekList.get(i + 1));
                 cnt++;
             }
         }
@@ -309,7 +309,7 @@ public class UserNoticeSetting {
         NoticeSaveData nsd = new NoticeSaveData(context);
 
         /*  端末内部へ曜日設定値の保存   */
-        for(int i = 0; i < 7; i++) nsd.saveDayOfWeek(i, dayOfWeekChecks[i]);
+        for(int i = 0; i < 7; i++) nsd.saveDayOfWeek(i + 1, dayOfWeekChecks[i]);
 
         /*  端末内部へ確認開始時刻の保存   */
         nsd.saveStartTime(toTimeFormat(startTimeHour, startTimeMinute));
