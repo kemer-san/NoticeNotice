@@ -17,6 +17,7 @@ public class InitSettingActivity extends Activity {
 
     private Button btnSendSetting;
     private Button btnInputAddress;
+    private Button btnShowUsage;
     private CompoundButton swOnOff;
 
     /**
@@ -25,6 +26,7 @@ public class InitSettingActivity extends Activity {
     private void findComponents() {
         btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
         btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
+        btnShowUsage = (Button) findViewById(R.id.btnShowUsage);
         swOnOff = (CompoundButton) findViewById(R.id.swOnOff);
     }
 
@@ -45,6 +47,9 @@ public class InitSettingActivity extends Activity {
 
         //送信先設定ボタン押下時のアクション
         btnInputAddress.setOnClickListener(btnInputAddressOnClickListener);
+
+        // 使用方法表示ボタン押下時のアクション
+        btnShowUsage.setOnClickListener(btnShowUsageOnClickListener);
 
         // OnOffスイッチのアクションをセット
         swOnOff.setOnCheckedChangeListener(swOnOffOnCheckedChangeListener);
@@ -92,8 +97,18 @@ public class InitSettingActivity extends Activity {
         }
     };
 
+    /**
+     * 使用方法表示ボタン押下時
+     * */
+    private final Button.OnClickListener btnShowUsageOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // 使用方法表示画面の起動
+            Intent intent = new Intent(getApplicationContext(),UsageActivity.class);
+            startActivity(intent);
+        }
+    };
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_init_setting, menu);
