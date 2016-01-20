@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:textSize="20sp"
-            android:text="@string/usage"/>
+            android:text="@string/usage"
+            android:id="@+id/btnShowUsage" />
     </FrameLayout>
 
 <Space
@@ -72,19 +73,19 @@
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></TableRow>
+        android:layout_height="fill_parent"/>
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></TableRow>
+        android:layout_height="fill_parent"/>
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></TableRow>
+        android:layout_height="fill_parent"/>
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></TableRow>
+        android:layout_height="fill_parent"/>
 
     <TableRow
         android:layout_width="fill_parent"
@@ -112,7 +113,7 @@
 
         <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></TableRow>
+            android:layout_height="fill_parent"/>
 
         <TableRow
             android:layout_width="fill_parent"
