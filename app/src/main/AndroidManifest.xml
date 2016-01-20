@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ametice.noticenotice" >
+    package="com.ametice.noticenotice">
 
     <!-- メール送信用にインターネット接続設定 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,12 +9,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- 初期画面 -->
         <activity
             android:name=".InitSettingActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,30 +24,33 @@
 
         <!-- 送信間隔設定 -->
         <activity
+            android:name=".UsageActivity"
+            android:label="@string/title_activity_usage"/>
+
+        <!-- 送信間隔設定 -->
+        <activity
             android:name=".SendSettingActivity"
-            android:label="@string/title_send_setting" >
-        </activity>
+            android:label="@string/title_send_setting"/>
 
         <!-- 送信先設定 -->
         <activity
             android:name=".InputAddressActivity"
-            android:label="@string/app_name" >
-
-        </activity>
+            android:label="@string/app_name"/>
 
         <!-- メッセージ画面 -->
         <activity
             android:name=".MessageActivity"
-            android:label="message_activity">
-
-        </activity>
+            android:label="message_activity"/>
 
         <!-- パスコード入力画面 -->
         <activity
             android:name=".InputPassCodeActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"/>
 
-        </activity>
+        <!-- 使用方法画面-->
+        <activity
+            android:name=".UsageActivity"
+            android:label="@string/title_activity_usage"/>
 
     </application>
 
