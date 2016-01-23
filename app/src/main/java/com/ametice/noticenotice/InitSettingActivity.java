@@ -1,7 +1,10 @@
 package com.ametice.noticenotice;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +13,6 @@ import android.content.Intent;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-
 public class InitSettingActivity extends Activity {
 
     //region "GUI部品"
@@ -18,6 +20,9 @@ public class InitSettingActivity extends Activity {
     private Button btnSendSetting;
     private Button btnInputAddress;
     private CompoundButton swOnOff;
+
+    /*  常駐サービスのハンドル */
+    private MonitorService monitorService;
 
     /**
      * 部品のハンドラを取得します。
@@ -83,11 +88,33 @@ public class InitSettingActivity extends Activity {
         Switch、ToggleButton、CheckBoxなどはいずれもCompoundButtonを継承したサブクラスになっています。*/
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            /*  常駐サービスのインテントを生成    */
+            Intent service = new Intent(InitSettingActivity.this, MonitorService.class);
+
             // 状態が変更されたときのアクション
             if (isChecked) {
+                /*  トーストを表示  */
                 Toast.makeText(InitSettingActivity.this, "通知機能がONになりました", Toast.LENGTH_SHORT).show();
+
+                /*  常駐サービスを起動   */
+                startService(service);
+
+                /*  常駐サービスをバインド */
+                bindService(service, connect, BIND_AUTO_CREATE);
+
             } else {
+                /*  トーストを表示  */
                 Toast.makeText(InitSettingActivity.this, "通知機能がOFFになりました", Toast.LENGTH_SHORT).show();
+
+                /*  通知取得サービスの停止 */
+                monitorService.offNotice();
+
+                /*  常駐サービスのバインドを解除 */
+                unbindService(connect);
+
+                /*  常駐サービスを停止   */
+                stopService(service);
             }
         }
     };
@@ -114,4 +141,21 @@ public class InitSettingActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /*  サービス接続のハンドル */
+    private ServiceConnection connect = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            /*  常駐サービスのハンドルを生成  */
+            monitorService = ((MonitorService.MonitorServiceLocalBinder) service).getService();
+
+            /*  通知取得サービスの起動  */
+            monitorService.onNotice();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            //monitorService = null;
+        }
+    };
 }
