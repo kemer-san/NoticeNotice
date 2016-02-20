@@ -88,7 +88,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="使い方"
-            android:id="@+id/button"
+                android:id="@+id/btnUsage"
             android:textSize="25dp"
             android:textColor="@android:color/white"
             android:phoneNumber="false"
