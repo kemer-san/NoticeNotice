@@ -8,71 +8,85 @@ android:layout_height="match_parent">
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.5">
+        android:layout_weight="10">
 
         <Space
-            android:layout_width="397dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7" />
+            android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="パスコードを入力してください"
-            android:id="@+id/lblInputAddress"
-            android:layout_gravity="center_vertical"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_weight="0.2" />
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="パスコードを入力してください"
+                android:id="@+id/lblInputAddress"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword|number"
+                android:maxLength="4"
+                android:digits="0123456789"
+                android:ems="20"
+                android:textSize="30sp"
+                android:id="@+id/txtPasscode" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
-    <EditText
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword|number"
-        android:maxLength="4"
-        android:digits="0123456789"
-        android:ems="20"
-        android:layout_weight="0.5"
-        android:textSize="30sp"
-        android:id="@+id/txtPasscode"
-        android:layout_gravity="center_vertical" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="6" />
-
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1.0"
-        android:weightSum="1">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
 
-            <Space
-                android:layout_width="20px"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.34" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="設定に戻る"
             android:id="@+id/btnBackToSetting"
-            android:layout_weight="0.33" />
+            android:layout_weight="3" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="認証"
-                android:id="@+id/btnSendMessage"
-                android:layout_weight="0.33" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="認証"
+            android:id="@+id/btnSendMessage"
+            android:layout_weight="3" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
     </LinearLayout>
+
 </LinearLayout>
