@@ -10,6 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import android.os.StrictMode;
+import android.annotation.SuppressLint;
+import android.net.Uri;
+import android.net.Uri.Builder;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
 /**
  * Created by Masato on 2015/09/26.
  */
@@ -58,8 +65,11 @@ public class MessageActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         context = this;
+
+        // メール送信用
+        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.setThreadPolicy(policy);
 
         // レイアウトを設定
         setContentView(R.layout.message);
@@ -123,6 +133,11 @@ public class MessageActivity extends Activity {
                 nsd.saveUserAddress(Address);
                 nsd.saveUserPassCode(passCode);
 
+                // 非同期通信
+                Uri.Builder builder = new Uri.Builder();
+                AsyncHttpRequest task = new AsyncHttpRequest();
+                task.execute(builder);
+
                 // パスコード入力画面へ遷移
                 Intent intent = new Intent(getApplicationContext(), InputPassCodeActivity.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //新規Activityを呼び出すときにやってもスタックはクリアされない
@@ -171,4 +186,46 @@ public class MessageActivity extends Activity {
 
         return String.format("%04d", (int) (Math.random() * 10000));
     }
+
+    // ------------------------------
+    // 非同期通信
+    // ------------------------------
+    public class AsyncHttpRequest extends AsyncTask<Uri.Builder, Void, String> {
+        @SuppressLint("UnlocalizedSms") @Override
+        protected String doInBackground(Builder... params) {
+            try {
+
+                /*  端末内部からメールアドレスとパスコードを取得    */
+                NoticeSaveData nsd = new NoticeSaveData(context);
+                String Address = nsd.loadUserAddress();
+                String Subject = nsd.loadPassCodeSubjectText();
+
+                String Mailtext = nsd.loadPassCodeText();
+                String passCode = nsd.loadUserPassCode();
+
+                StringBuilder sbBodyText = new StringBuilder();
+                sbBodyText.append(Mailtext.toString());
+                sbBodyText.append(passCode);
+
+                // メール送信
+                MailSender ms = new MailSender();
+                ms.send(Address, Subject.toString(), sbBodyText.toString());
+            } catch (Exception e) {
+                return e.toString();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            // トーストを表示
+            Toast
+                    .makeText(
+                            getBaseContext(),
+                            "メールを送信しました",
+                            Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
 }

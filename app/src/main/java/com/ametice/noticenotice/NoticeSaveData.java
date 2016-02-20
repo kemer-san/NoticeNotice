@@ -52,6 +52,12 @@ public class NoticeSaveData extends PreferencesManager {
     private static final String INIT_ENDTIME = "18:0";
     private static final String INIT_INTERVAL = "60";
 
+    /*  メール固定本文 */
+    private static final String TEXT_SEND_PASS = "これはあなたの端末への送信先設定用パスコードです。";
+
+    /*  メール固定件名 */
+    private static final String TEXT_SEND_SUBJECT_PASS = "[NoticeNotice]送信先設定パスワード";
+
     /**
      * コンストラクタ
      * @param context コンテキスト
@@ -151,6 +157,21 @@ public class NoticeSaveData extends PreferencesManager {
     public String loadCheckInterval(){
         return  super.loadStringData(NOTICE_SETTING_CHECK_INTERVAL);
     }
+
+    /**
+     * パスワード送付メール本文の取得
+     */
+    public String loadPassCodeText(){
+        return  super.loadStringData(TEXT_SEND_PASS);
+    }
+
+    /**
+     * パスワード送付メール件名の取得
+     */
+    public String loadPassCodeSubjectText(){
+        return  super.loadStringData(TEXT_SEND_SUBJECT_PASS);
+    }
+
 
     /**
      * 曜日のチェックフラグの読み込み
