@@ -29,6 +29,9 @@ public class NoticeSaveData extends PreferencesManager {
     /*  チェック間隔   */
     public static final String NOTICE_SETTING_CHECK_INTERVAL = "NOTICE_SETTING_CHECK_INTERVAL";
 
+    /*  認証の有無   */
+    public static final String NOTICE_SETTING_USER_REGISTRATION = "NOTICE_SETTING_USER_REGISTRATION";
+
     /*  曜日   */
     public static final int SUNDAY = 1;
     public static final int MONDAY = 2;
@@ -51,12 +54,6 @@ public class NoticeSaveData extends PreferencesManager {
     private static final String INIT_STARTTIME = "9:0";
     private static final String INIT_ENDTIME = "18:0";
     private static final String INIT_INTERVAL = "60";
-
-    /*  メール固定本文 */
-    private static final String TEXT_SEND_PASS = "これはあなたの端末への送信先設定用パスコードです。";
-
-    /*  メール固定件名 */
-    private static final String TEXT_SEND_SUBJECT_PASS = "[NoticeNotice]送信先設定パスワード";
 
     /**
      * コンストラクタ
@@ -119,6 +116,14 @@ public class NoticeSaveData extends PreferencesManager {
         super.saveBooleanData(toDayOfWeekKey(dayOfWeek), checkFlag);
     }
 
+    /**
+     * 登録の有無を保存
+     * @param registFlag 登録フラグ
+     */
+    public void saveUserRegistration(boolean registFlag) {
+        super.saveBooleanData(NOTICE_SETTING_USER_REGISTRATION, registFlag);
+    }
+
     /************/
     /*  getter  */
     /************/
@@ -159,26 +164,18 @@ public class NoticeSaveData extends PreferencesManager {
     }
 
     /**
-     * パスワード送付メール本文の取得
-     */
-    public String loadPassCodeText(){
-        return  super.loadStringData(TEXT_SEND_PASS);
-    }
-
-    /**
-     * パスワード送付メール件名の取得
-     */
-    public String loadPassCodeSubjectText(){
-        return  super.loadStringData(TEXT_SEND_SUBJECT_PASS);
-    }
-
-
-    /**
      * 曜日のチェックフラグの読み込み
      * @param dayOfWeek 曜日
      */
     public boolean loadDayOfWeek(int dayOfWeek) {
         return super.loadBooleanData(toDayOfWeekKey(dayOfWeek));
+    }
+
+    /**
+     * 登録の有無を読み込み
+     */
+    public boolean loadUserRegistration() {
+        return super.loadBooleanData(NOTICE_SETTING_USER_REGISTRATION);
     }
 
     /**
@@ -260,6 +257,14 @@ public class NoticeSaveData extends PreferencesManager {
         }catch (Exception e){
             /*  エラーの場合は固定の確認間隔を設定   */
             saveCheckInterval(INIT_INTERVAL);
+        }
+
+        try {
+            /*  登録有無の設定状況の取得  */
+            loadUserRegistration();
+        }catch (Exception e){
+            /*  エラーの場合は未登録を設定   */
+            saveUserRegistration(false);
         }
     }
 }

@@ -15,6 +15,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * クラス名 ：MonitorService
+ * 説明    ：通知取得の監視を行うサービス
+ * 最終更新 :2016/2/20
+ * @version 1.2
+ * @author  Y.Hiyoshi(ametis)
+ */
 public class MonitorService extends Service {
 
     /*  ブロードキャスト用   */
@@ -61,8 +68,8 @@ public class MonitorService extends Service {
             /*  次の通知時刻を設定   */
             setTimer();
 
-            /*  送信する曜日の場合   */
-            if(isRunDayOfWeek() == true){
+            /*  送信する曜日・時刻範囲の場合   */
+            if(isRunDayOfWeek() == true && isRunTime() == true){
                 /*  メール送信   */
                 sendMail();
             }
@@ -157,6 +164,59 @@ public class MonitorService extends Service {
         /*  今日の曜日が曜日指定設定でTRUEであるか確認    */
         NoticeSaveData nsd = new NoticeSaveData(this);
         if(nsd.loadDayOfWeek(dayOfWeek) == true)return true;
+
+        return false;
+    }
+
+    /**
+     * 通知を監視する時刻であるか確認
+     * @return 判定値
+     */
+    private boolean isRunTime() {
+            /*  現在日時・時刻の取得 */
+        Calendar currentTime = Calendar.getInstance();
+        currentTime.getTime();
+
+            /*  現在の年、月、日の取り出し  */
+        int year = currentTime.get(Calendar.YEAR);
+        int month = currentTime.get(Calendar.MONTH);
+        int day = currentTime.get(Calendar.DATE);
+
+            /*  設定から確認開始時刻の取得 */
+        String settingStartTime = new NoticeSaveData(getApplicationContext()).loadStartTime();
+        String settingEndTime = new NoticeSaveData(getApplicationContext()).loadEndTime();
+
+            /*  設定から確認開始時刻の時、分の取り出し  */
+        String splitStartTime[] = settingStartTime.split(":", 2);
+        int startHour = Integer.parseInt(splitStartTime[0]);
+        int startMinute = Integer.parseInt(splitStartTime[1]);
+
+            /*  確認開始時刻比較用インスタンスの生成  */
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(year, month, day, startHour, startMinute, 0);
+
+            /*  設定から確認開始時刻の時、分の取り出し  */
+        String splitEndTime[] = settingEndTime.split(":", 2);
+        int endHour = Integer.parseInt(splitEndTime[0]);
+        int endMinute = Integer.parseInt(splitEndTime[1]);
+
+            /*  確認開始時刻比較用インスタンスの生成  */
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(year, month, day, endHour, endMinute, 0);
+
+        if(0 <= startTime.compareTo(endTime)){
+            //startTime.set(year, month, day, startHour, startMinute, 0);
+            //endTime.set(year, month, day + 1, endHour, endMinute, 0);
+
+            endTime.add(Calendar.DATE, 1);
+        };
+
+
+        int diff1 = currentTime.compareTo(startTime);
+        int diff2 = currentTime.compareTo(endTime);
+
+        /*  確認開始時刻より大きく、確認終了時刻より小さい場合   */
+        if(0 <= diff1 && diff2 <= 0)return true;
 
         return false;
     }
