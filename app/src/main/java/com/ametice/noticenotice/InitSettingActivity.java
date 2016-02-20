@@ -54,6 +54,11 @@ public class InitSettingActivity extends Activity {
         // OnOffスイッチのアクションをセット
         swOnOff.setOnCheckedChangeListener(swOnOffOnCheckedChangeListener);
 
+        /*  ユーザーが認証済み且つ、常駐サービスが実行中の場合はONにする  */
+        boolean isService = new NoticeUtility().isRunService(MonitorService.class.getName(), getApplicationContext());
+        boolean isRegister = new NoticeSaveData(getApplicationContext()).loadUserRegistration();
+        if(isService == true && isRegister == true) swOnOff.setChecked(true);
+
         /*   ユーザーの設定値のチェックと初期化   */
         NoticeSaveData nsd = new NoticeSaveData(this);
         nsd.checkUserData();
