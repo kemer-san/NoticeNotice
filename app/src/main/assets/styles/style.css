@@ -1,0 +1,23 @@
+h1 {
+    color: blue;
+}
+
+h2 {
+    color: orange;
+}
+
+img.full-width {
+    width: 100%;
+}
+
+img.half-width {
+    width: 50%;
+}
+
+img.one-third {
+    width: 33%;
+}
+
+img.quarter {
+    width: 25%;
+}

@@ -2,6 +2,7 @@ package com.ametice.noticenotice;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -9,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
@@ -17,6 +17,7 @@ public class InitSettingActivity extends Activity {
 
     //region "GUI部品"
 
+    private Button btnUsage;
     private Button btnSendSetting;
     private Button btnInputAddress;
     private CompoundButton swOnOff;
@@ -28,6 +29,7 @@ public class InitSettingActivity extends Activity {
      * 部品のハンドラを取得します。
      */
     private void findComponents() {
+        btnUsage = (Button) findViewById(R.id.btnUsage);
         btnSendSetting = (Button) findViewById(R.id.btnSendSetting);
         btnInputAddress = (Button) findViewById(R.id.btnInputAddress);
         swOnOff = (CompoundButton) findViewById(R.id.swOnOff);
@@ -44,6 +46,9 @@ public class InitSettingActivity extends Activity {
 
         // 部品のハンドラを取得
         findComponents();
+
+        // 使い方ボタン押下時のアクション
+        btnUsage.setOnClickListener(btnUsageOnClickListener);
 
         //送信間隔ボタン押下時のアクション
         btnSendSetting.setOnClickListener(btnSendSettingOnClickListener);
@@ -65,6 +70,15 @@ public class InitSettingActivity extends Activity {
 
     }
 
+    private final Button.OnClickListener btnUsageOnClickListener = new Button.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            // 使い方画面の起動
+            Intent intent = new Intent(getApplicationContext(), UsageActivity.class);
+            startActivity(intent);
+        }
+    };
 
     private final Button.OnClickListener btnSendSettingOnClickListener = new Button.OnClickListener(){
         @Override
