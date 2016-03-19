@@ -8,4 +8,8 @@
 
     <string name="usage">使用方法</string>
     <string name="title_activity_usage">UsageActivity</string>
+
+    <string name="mail_subject_notice_send">通知を取得しました</string>
+    <string name="mail_subject_notice_text">あなたの端末で以下の通知を取得しました。</string>
+
 </resources>
