@@ -1,6 +1,7 @@
 package com.ametice.noticenotice;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -18,8 +21,8 @@ import java.util.Calendar;
 /**
  * クラス名 ：MonitorService
  * 説明    ：通知取得の監視を行うサービス
- * 最終更新 :2016/2/20
- * @version 1.2
+ * 最終更新 :2016/3/19
+ * @version 1.3
  * @author  Y.Hiyoshi(ametis)
  */
 public class MonitorService extends Service {
@@ -70,10 +73,14 @@ public class MonitorService extends Service {
 
             /*  送信する曜日・時刻範囲の場合   */
             if(isRunDayOfWeek() == true && isRunTime() == true){
-                /*  メール送信   */
-                sendMail();
+                /*  通知を取得している場合、非同期通信でメール送信   */
+                if(noticeList.isEmpty() == false) {
+                    // 非同期通信
+                    Uri.Builder builder = new Uri.Builder();
+                    AsyncHttpRequest task = new AsyncHttpRequest();
+                    task.execute(builder);
+                }
             }
-
         }
 
         return START_STICKY;
@@ -111,7 +118,7 @@ public class MonitorService extends Service {
         Intent service = new Intent(MonitorService.this, NotificationService.class);
 
         /*  通知サービスの開始   */
-        //startService(service);
+        startService(service);
 
         /*  確認間隔の設定 */
         setCheckInterval();
@@ -130,7 +137,7 @@ public class MonitorService extends Service {
         Intent service = new Intent(MonitorService.this, NotificationService.class);
 
         /*  通知サービスの停止   */
-        //stopService(service);
+        stopService(service);
     }
 
     /**
@@ -238,6 +245,8 @@ public class MonitorService extends Service {
 
             /*  通知文字列をリストに挿入    */
             insertNoticeList(noticeText);
+
+            Log.d("debug_Notice",noticeText);
         }
     };
 
@@ -260,22 +269,72 @@ public class MonitorService extends Service {
         /*  次回のメール送信タイミングを設定    */
         am.setWindow(AlarmManager.RTC_WAKEUP, startMillis, windowLengthMillis, sender);
     }
+//
+//    /**
+//     * メールを送信する
+//     */
+//    private void sendMail(){
+//        StringBuilder sb = new StringBuilder();
+//
+//        /*  通知文字列の取り出し  */
+//        for(String noticeText : noticeList){
+//            sb.append(noticeText + "\n");
+//        }
+//
+//        /*  メール送信   */
+//        //stub
+//
+//
+//        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+//        Log.d("debug_All", sb.toString());
+//
+//        /*  通知文字列の初期化   */
+//        noticeList.clear();
+//    }
 
-    /**
-     * メールを送信する
-     */
-    private void sendMail(){
-        StringBuilder sb = new StringBuilder();
+    // ------------------------------
+    // 非同期通信
+    // ------------------------------
+    public class AsyncHttpRequest extends AsyncTask<Uri.Builder, Void, String> {
+        @SuppressLint("UnlocalizedSms") @Override
+        protected String doInBackground(Uri.Builder... params) {
+            try {
+                /*  通知文字列の取り出し  */
+                StringBuilder sb = new StringBuilder();
+                for(String noticeText : noticeList){
+                    sb.append(noticeText + "\n");
+                }
 
-        /*  通知文字列の取り出し  */
-        for(String noticeText : noticeList){
-            sb.append(noticeText + "\n");
+                /*  端末内部からメールアドレスとパスコードを取得    */
+                NoticeSaveData nsd = new NoticeSaveData(getApplicationContext());
+                String Address = nsd.loadUserAddress();
+
+                /*  メールタイトル取得    */
+                String Subject = getString(R.string.mail_subject_notice_send);
+
+                /*  メール本文生成    */
+                String MailtextHeader = getString(R.string.mail_subject_notice_text);
+
+                StringBuilder Mailtext = new StringBuilder();
+                Mailtext.append(MailtextHeader);
+                Mailtext.append("\n\n");
+                Mailtext.append(sb.toString());
+                Mailtext.append("\n");
+                Mailtext.append("以上\n");
+
+                Log.d("debug_All", Mailtext.toString());
+
+                // メール送信
+                MailSender ms = new MailSender();
+                ms.send(Address, Subject, Mailtext.toString());
+
+                /*  通知文字列の初期化   */
+                noticeList.clear();
+
+            } catch (Exception e) {
+                return e.toString();
+            }
+            return null;
         }
-
-        /*  メール送信   */
-        //stub
-
-        /*  通知文字列の初期化   */
-        noticeList.clear();
     }
 }
