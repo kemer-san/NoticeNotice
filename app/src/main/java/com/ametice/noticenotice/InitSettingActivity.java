@@ -85,7 +85,24 @@ public class InitSettingActivity extends Activity {
         public void onClick(View v) {
             // 送信間隔設定画面の起動
             Intent intent = new Intent(getApplicationContext(), SendSettingActivity.class);
-            startActivity(intent);
+            //startActivity(intent);
+
+            /*  遷移先の返却値 */
+            int result = 0;
+
+            /*  設定画面に遷移 */
+            startActivityForResult(intent, result);
+
+            /*  設定画面のOKボタン押下の有無を判定    */
+            if(result == SendSettingActivity.NOTIFICATION_OK_PUSHED){
+
+                /*  常駐サービスが実行中の場合  */
+                boolean isService = new NoticeUtility().isRunService(MonitorService.class.getName(), getApplicationContext());
+                if(isService == true){
+                    /*  インターバル再設定  */
+                    monitorService.setCheckInterval();
+                }
+            }
         }
     };
 
