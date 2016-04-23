@@ -35,6 +35,7 @@ public class MessageActivity extends Activity {
     private TextView msgText1;
     private TextView msgText2;
     private Button btn;
+    private Button bkbtn;
 
     /*  インテント   */
     Intent intent;
@@ -48,6 +49,7 @@ public class MessageActivity extends Activity {
         msgText1 = (TextView) findViewById(R.id.msg_text1);
         msgText2 = (TextView) findViewById(R.id.msg_text2);
         btn = (Button) findViewById(R.id.btnMessage);
+        bkbtn = (Button) findViewById(R.id.btnBkMessage);
     }
 
     /**
@@ -107,7 +109,7 @@ public class MessageActivity extends Activity {
         /* 前画面で入力されたメールアドレスを取得   */
         final String Address = intent.getStringExtra("EmailAddress");
 
-            /*  メッセージを整形    */
+        /*  メッセージを整形    */
         String message1 = Address + "へ送信します。";
         String message2 = "よろしいですか？";
 
@@ -115,6 +117,16 @@ public class MessageActivity extends Activity {
         msgText1.setText(message1);
         msgText2.setText(message2);
         btn.setText("送信");
+        bkbtn.setText("戻る");
+
+        /*  戻るボタンを押下時のアクション */
+        bkbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            // メールアドレス入力画面へ戻る
+            finish();
+            }
+        });
 
         /*  送信ボタン押下時のアクション  */
         btn.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +176,8 @@ public class MessageActivity extends Activity {
         msgText1.setText(message1);
         msgText2.setText(message2);
         btn.setText("完了");
+        // 認証完了モードの場合、戻るボタンは隠す
+        bkbtn.setVisibility(View.INVISIBLE);
 
         /*  完了ボタン押下時のアクション  */
         btn.setOnClickListener(new View.OnClickListener() {
@@ -221,7 +235,7 @@ public class MessageActivity extends Activity {
             Toast
                     .makeText(
                             getBaseContext(),
-                            "パスコードを記載したメールを送信しましたｓ",
+                            "パスコードを記載したメールを送信しました",
                             Toast.LENGTH_SHORT)
                     .show();
         }

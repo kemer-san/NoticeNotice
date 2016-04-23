@@ -273,10 +273,10 @@ public class UserNoticeSetting {
         /*  文字列のコピー */
         allDayOfWeek = strb.toString();
 
-        /*  文字列のコピー */
-        if(cnt == 0){
-            allDayOfWeek = "none";
-        }
+        /* 曜日指定なし */
+        if(cnt == 0) {allDayOfWeek = "none";}
+        /* 毎日指定 */
+        if(cnt == 7) {allDayOfWeek = "everyday";}
 
         return allDayOfWeek;
     }
