@@ -198,8 +198,8 @@ public class MessageActivity extends Activity {
                 /*  端末内部からメールアドレスとパスコードを取得    */
                 NoticeSaveData nsd = new NoticeSaveData(context);
                 String Address = nsd.loadUserAddress();
-                String Subject = "[NoticeNotice]メール送信設定用パスワード";
-                String MailText = "これはあなたの端末への送信先設定用のパスワードになります。\n\n パスワード：";
+                String Subject = "[NoticeNotice]メール送信設定認証用パスコード";
+                String MailText = "これはあなたの端末への送信先設定用のパスコードになります。\n\n パスコード：";
                 String passCode = nsd.loadUserPassCode();
 
                 StringBuilder sbBodyText = new StringBuilder();
@@ -221,7 +221,7 @@ public class MessageActivity extends Activity {
             Toast
                     .makeText(
                             getBaseContext(),
-                            "メールを送信しました",
+                            "パスコードを記載したメールを送信しましたｓ",
                             Toast.LENGTH_SHORT)
                     .show();
         }
