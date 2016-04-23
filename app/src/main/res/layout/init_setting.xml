@@ -11,63 +11,38 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.0"
-            android:weightSum="1"
-            android:gravity="bottom">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14" />
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="230dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="95dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Notice"
-                android:id="@+id/textView2"
-                android:textColor="#275d90"
-                android:autoText="true"
-                android:textSize="100dp"
-                android:gravity="top|bottom"
-                android:layout_weight="0.34" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.22" />
-
-            <TextView
-                android:layout_width="273dp"
-                android:layout_height="98dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Notice"
                 android:id="@+id/textView3"
                 android:textColor="#275d90"
                 android:autoText="true"
-                android:textSize="100dp"
-                android:gravity="left|bottom"
+                android:textSize="130dp"
                 android:singleLine="true"
-                android:typeface="normal" />
+                android:typeface="normal"
+                android:layout_weight="0.1"
+                android:gravity="center" />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="250dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="  Notice"
+                android:id="@+id/textView2"
+                android:textColor="#275d90"
+                android:autoText="true"
+                android:textSize="130dp"
+                android:layout_weight="0.1"
+                android:layout_gravity="center_vertical"
+                android:gravity="bottom|center" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"></LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -79,7 +54,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2.29"/>
+                android:layout_weight="3.93"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,12 +63,12 @@
                 android:id="@+id/textView"
                 android:textSize="25dp"
                 android:gravity="center_vertical"
-                android:layout_weight="0.30" />
+                android:layout_weight="2.5" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.34" />
+                android:layout_weight="1.51" />
 
             <Switch
                 android:layout_width="wrap_content"
@@ -102,12 +77,12 @@
                 android:textSize="21dp"
                 android:id="@+id/swOnOff"
                 android:nestedScrollingEnabled="true"
-                android:layout_weight="0.21" />
+                android:layout_weight="0.67" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.43"/>
+                android:layout_weight="2.5"/>
         </LinearLayout>
 
     </LinearLayout>
