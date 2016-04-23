@@ -20,6 +20,8 @@ public class SendSettingActivity extends Activity {
     Context context;
     UserNoticeSetting uns;
 
+    public static final int NOTIFICATION_OK_PUSHED = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +110,9 @@ public class SendSettingActivity extends Activity {
                 case R.id.btn_sendsetting:
                     /*   端末内部へ設定値の一括保存   */
                     uns.saveTimeData();
+
+                    /*  遷移元に値を返す（OKボタンが押下されました）    */
+                    setResult(NOTIFICATION_OK_PUSHED);
 
                     /*   アクティビティを破棄し遷移前画面に戻る   */
                     finish();
