@@ -155,9 +155,10 @@ public class SendSettingActivity extends Activity {
 
         allDayOfWeek = strb.toString();
 
-        if(cnt == 0){
-            allDayOfWeek = "none";
-        }
+        /* 曜日指定なし */
+        if(cnt == 0) {allDayOfWeek = "none";}
+        /* 毎日指定 */
+        if(cnt == 7) {allDayOfWeek = "everyday";}
 
         return allDayOfWeek;
     }
