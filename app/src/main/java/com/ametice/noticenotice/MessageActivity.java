@@ -198,13 +198,12 @@ public class MessageActivity extends Activity {
                 /*  端末内部からメールアドレスとパスコードを取得    */
                 NoticeSaveData nsd = new NoticeSaveData(context);
                 String Address = nsd.loadUserAddress();
-                String Subject = nsd.loadPassCodeSubjectText();
-
-                String Mailtext = nsd.loadPassCodeText();
+                String Subject = "[NoticeNotice]メール送信設定用パスワード";
+                String MailText = "これはあなたの端末への送信先設定用のパスワードになります。\n\n パスワード：";
                 String passCode = nsd.loadUserPassCode();
 
                 StringBuilder sbBodyText = new StringBuilder();
-                sbBodyText.append(Mailtext.toString());
+                sbBodyText.append(MailText);
                 sbBodyText.append(passCode);
 
                 // メール送信
