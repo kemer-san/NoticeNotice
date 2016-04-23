@@ -49,11 +49,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <Space
+        <Button
+            android:text="back_btn"
+            android:id="@+id/btnBkMessage"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:id="@+id/btnSpace" />
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
 
         <Space
             android:layout_width="0dp"

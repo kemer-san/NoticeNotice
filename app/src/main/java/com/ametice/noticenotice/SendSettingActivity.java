@@ -20,6 +20,8 @@ public class SendSettingActivity extends Activity {
     Context context;
     UserNoticeSetting uns;
 
+    public static final int NOTIFICATION_OK_PUSHED = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +111,9 @@ public class SendSettingActivity extends Activity {
                     /*   端末内部へ設定値の一括保存   */
                     uns.saveTimeData();
 
+                    /*  遷移元に値を返す（OKボタンが押下されました）    */
+                    setResult(NOTIFICATION_OK_PUSHED);
+
                     /*   アクティビティを破棄し遷移前画面に戻る   */
                     finish();
 
@@ -155,9 +160,10 @@ public class SendSettingActivity extends Activity {
 
         allDayOfWeek = strb.toString();
 
-        if(cnt == 0){
-            allDayOfWeek = "none";
-        }
+        /* 曜日指定なし */
+        if(cnt == 0) {allDayOfWeek = "none";}
+        /* 毎日指定 */
+        if(cnt == 7) {allDayOfWeek = "everyday";}
 
         return allDayOfWeek;
     }

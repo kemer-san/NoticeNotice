@@ -153,7 +153,7 @@ public class MonitorService extends Service {
     /**
      * 確認間隔を設定
      */
-    private void setCheckInterval(){
+    public void setCheckInterval(){
         /*  ユーザーが設定した確認間隔を取得    */
         interval = Integer.parseInt(new NoticeSaveData(this).loadCheckInterval());
         //Toast.makeText(this, Integer.toString(interval), Toast.LENGTH_SHORT).show();
@@ -269,28 +269,6 @@ public class MonitorService extends Service {
         /*  次回のメール送信タイミングを設定    */
         am.setWindow(AlarmManager.RTC_WAKEUP, startMillis, windowLengthMillis, sender);
     }
-//
-//    /**
-//     * メールを送信する
-//     */
-//    private void sendMail(){
-//        StringBuilder sb = new StringBuilder();
-//
-//        /*  通知文字列の取り出し  */
-//        for(String noticeText : noticeList){
-//            sb.append(noticeText + "\n");
-//        }
-//
-//        /*  メール送信   */
-//        //stub
-//
-//
-//        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
-//        Log.d("debug_All", sb.toString());
-//
-//        /*  通知文字列の初期化   */
-//        noticeList.clear();
-//    }
 
     // ------------------------------
     // 非同期通信
