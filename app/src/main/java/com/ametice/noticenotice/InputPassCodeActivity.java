@@ -76,6 +76,9 @@ public class InputPassCodeActivity extends Activity {
                 // Modeに自画面のクラス名を設定
                 intent.putExtra("Mode", InputPassCodeActivity.class.getName());
 
+                /* 端末内部に「認証済み」のフラグを設定 */
+                new NoticeSaveData(getApplicationContext()).saveUserRegistration(true);
+
                 // 画面の呼び出し
                 startActivity(intent);
             } else {
