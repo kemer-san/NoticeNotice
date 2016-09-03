@@ -50,7 +50,7 @@ public class NotificationService extends NotificationListenerService {
      * ブロードキャストの送信
      */
     private void startBroadCast(String str){
-        Intent intent = new Intent(NOTIFICATION_SERVICE);
+        Intent intent = new Intent("NOTIFICATION_SERVICE");
         intent.putExtra(NOTIFICATION_TEXT, str);
         sendBroadcast(intent);
     }
