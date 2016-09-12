@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.R;
 
 /**
  * メールアドレス入力画面

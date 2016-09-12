@@ -1,6 +1,8 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.data;
 
 import android.content.Context;
+
+import com.ametice.noticenotice.util.PreferencesManager;
 
 /**
  * クラス名 ：NoticeSaveData
@@ -33,13 +35,13 @@ public class NoticeSaveData extends PreferencesManager {
     public static final String NOTICE_SETTING_USER_REGISTRATION = "NOTICE_SETTING_USER_REGISTRATION";
 
     /*  曜日   */
-    public static final int SUNDAY = 1;
-    public static final int MONDAY = 2;
-    public static final int THUSDAY = 3;
-    public static final int WEDNESDAY = 4;
-    public static final int THURSDAY = 5;
-    public static final int FRIDAY = 6;
-    public static final int SATURDAY = 7;
+    public static final int SUNDAY = 0;
+    public static final int MONDAY = 1;
+    public static final int THUSDAY = 2;
+    public static final int WEDNESDAY = 3;
+    public static final int THURSDAY = 4;
+    public static final int FRIDAY = 5;
+    public static final int SATURDAY = 6;
 
     /*  曜日キー   */
     private static final String NOTICE_SETTING_MONDAY = "NOTICE_SETTING_MONDAY";
@@ -109,7 +111,7 @@ public class NoticeSaveData extends PreferencesManager {
 
     /**
      * 曜日のチェックフラグの保存
-     * @param dayOfWeek 曜日
+     * @param dayOfWeek 曜日（日〜土[0-6]）
      * @param checkFlag チェックフラグ
      */
     public void saveDayOfWeek(int dayOfWeek, boolean checkFlag) {
@@ -165,7 +167,7 @@ public class NoticeSaveData extends PreferencesManager {
 
     /**
      * 曜日のチェックフラグの読み込み
-     * @param dayOfWeek 曜日
+     * @param dayOfWeek 曜日（日〜土[0-6]）
      */
     public boolean loadDayOfWeek(int dayOfWeek) {
         return super.loadBooleanData(toDayOfWeekKey(dayOfWeek));
@@ -180,7 +182,7 @@ public class NoticeSaveData extends PreferencesManager {
 
     /**
      * 曜日のキーの生成
-     * @param dayOfWeek 曜日
+     * @param dayOfWeek 曜日（日〜土[0-6]）
      * @return 曜日キー
      */
     private String toDayOfWeekKey(int dayOfWeek){

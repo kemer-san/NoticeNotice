@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

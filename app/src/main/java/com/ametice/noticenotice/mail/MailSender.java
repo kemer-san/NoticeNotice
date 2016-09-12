@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.mail;
 
 import android.content.SharedPreferences;
 import android.os.StrictMode;

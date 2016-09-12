@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.R;
+import com.ametice.noticenotice.setting.UserNoticeSetting;
 
 import java.util.HashMap;
 
@@ -142,22 +146,26 @@ public class SendSettingActivity extends Activity {
         HashMap<Integer,String> dayOfWeekList = new HashMap<Integer,String>();
 
         /*  曜日リストの生成    */
-        dayOfWeekList.put(1, "日");
-        dayOfWeekList.put(2, "月");
-        dayOfWeekList.put(3, "火");
-        dayOfWeekList.put(4, "水");
-        dayOfWeekList.put(5, "木");
-        dayOfWeekList.put(6, "金");
-        dayOfWeekList.put(7, "土");
+        dayOfWeekList.put(0, "日");
+        dayOfWeekList.put(1, "月");
+        dayOfWeekList.put(2, "火");
+        dayOfWeekList.put(3, "水");
+        dayOfWeekList.put(4, "木");
+        dayOfWeekList.put(5, "金");
+        dayOfWeekList.put(6, "土");
 
-        /*  前回値を表示する（日〜土[1-7]）    */
-        for(int i = 1; i <= 7; i++){
+        /*  前回値を表示する（日〜土[0-6]）    */
+        for(int i = 0; i < 7; i++){
             if(new NoticeSaveData(context).loadDayOfWeek(i) == true){
+                /*  表示用に曜日の文字を保持   */
                 strb.append(dayOfWeekList.get(i));
+
+                /*  前回値の設定数をカウント    */
                 cnt++;
             }
         }
 
+        /*  表示用の曜日を格納   */
         allDayOfWeek = strb.toString();
 
         /* 曜日指定なし */

@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+
+import com.ametice.noticenotice.R;
+import com.ametice.noticenotice.util.UsagePageManager;
 
 public class UsageActivity extends AppCompatActivity {
 

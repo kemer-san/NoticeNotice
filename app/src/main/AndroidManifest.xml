@@ -13,7 +13,7 @@
 
         <!-- 初期画面 -->
         <activity
-            android:name=".InitSettingActivity"
+            android:name=".activity.InitSettingActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,42 +24,42 @@
 
         <!-- 送信間隔設定 -->
         <activity
-            android:name=".SendSettingActivity"
+            android:name=".activity.SendSettingActivity"
             android:label="@string/title_send_setting" >
         </activity>
 
         <!-- 送信先設定 -->
         <activity
-            android:name=".InputAddressActivity"
+            android:name=".activity.InputAddressActivity"
             android:label="@string/app_name" >
 
         </activity>
 
         <!-- メッセージ画面 -->
         <activity
-            android:name=".MessageActivity"
+            android:name=".activity.MessageActivity"
             android:label="message_activity">
 
         </activity>
 
         <!-- パスコード入力画面 -->
         <activity
-            android:name=".InputPassCodeActivity"
+            android:name=".activity.InputPassCodeActivity"
             android:label="@string/app_name">
 
         </activity>
 
         <!-- 使い方画面 -->
-        <activity android:name=".UsageActivity"
+        <activity android:name=".activity.UsageActivity"
             android:label="@string/app_name"/>
 
         <service
-            android:name=".MonitorService"
+            android:name=".service.MonitorService"
             android:enabled="true"
             android:exported="true" >
         </service>
         <service
-            android:name=".NotificationService"
+            android:name=".service.NotificationService"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
             <intent-filter>
