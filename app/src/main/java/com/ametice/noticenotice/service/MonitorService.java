@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.service;
 
 
 import android.annotation.SuppressLint;
@@ -15,6 +15,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.R;
+import com.ametice.noticenotice.mail.MailSender;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -166,7 +171,10 @@ public class MonitorService extends Service {
     private boolean isRunDayOfWeek() {
         /*  システムの曜日を取得  */
         Calendar cal = Calendar.getInstance();
-        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);  //Calenderの仕様で日〜土[1-7]
+
+        /*  Notice上の曜日の数字に変更 */
+        dayOfWeek = dayOfWeek - 1;
 
         /*  今日の曜日が曜日指定設定でTRUEであるか確認    */
         NoticeSaveData nsd = new NoticeSaveData(this);
@@ -231,7 +239,7 @@ public class MonitorService extends Service {
     /*  サービス接続用バインダー  */
     public class MonitorServiceLocalBinder extends Binder {
         /*  サービスの取得 */
-        MonitorService getService() {
+        public MonitorService getService() {
             return MonitorService.this;
         }
     }

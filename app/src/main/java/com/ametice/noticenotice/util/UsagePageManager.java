@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.util;
 
 /**
  * 使い方ページ管理クラス(Singleton)

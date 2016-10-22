@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
+
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.R;
 
 /**
  * Created by Masato on 2015/11/21.

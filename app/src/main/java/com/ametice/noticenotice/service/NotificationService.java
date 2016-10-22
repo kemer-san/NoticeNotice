@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.service;
 
 import android.content.Intent;
 import android.service.notification.NotificationListenerService;

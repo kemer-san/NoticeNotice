@@ -1,17 +1,27 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Toast;
+
+import com.ametice.noticenotice.service.MonitorService;
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InitSettingActivity extends Activity {
 
@@ -60,7 +70,7 @@ public class InitSettingActivity extends Activity {
         swOnOff.setOnCheckedChangeListener(swOnOffOnCheckedChangeListener);
 
         /*  ユーザーが認証済み且つ、常駐サービスが実行中の場合はONにする  */
-        boolean isService = new NoticeUtility().isRunService(MonitorService.class.getName(), getApplicationContext());
+        boolean isService = isRunService(MonitorService.class.getName(), getApplicationContext());
         boolean isRegister = new NoticeSaveData(getApplicationContext()).loadUserRegistration();
         if(isService == true && isRegister == true) swOnOff.setChecked(true);
 
@@ -77,8 +87,28 @@ public class InitSettingActivity extends Activity {
             // 使い方画面の起動
             Intent intent = new Intent(getApplicationContext(), UsageActivity.class);
             startActivity(intent);
+
+//            onDebug();
         }
     };
+
+    private void onDebug(){
+        int cnt =0;
+        boolean dayOfWeekChecks[] = new boolean[7];
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < 7; i++) {
+            if (new NoticeSaveData(getApplicationContext()).loadDayOfWeek(i) == true) {
+            /*  前回値の設定数をカウント    */
+                dayOfWeekChecks[i] = new NoticeSaveData(getApplicationContext()).loadDayOfWeek(i);
+                cnt++;
+                sb.append(Integer.toString(i)+",");
+            }
+        }
+        Log.d("cnt:",Integer.toString(cnt));
+        Log.d("checks:",sb.toString());
+        Toast.makeText(InitSettingActivity.this, "cnt:" + Integer.toString(cnt) , Toast.LENGTH_SHORT).show();
+        Toast.makeText(InitSettingActivity.this, "checks:" + sb.toString(), Toast.LENGTH_SHORT).show();
+    }
 
     private final Button.OnClickListener btnSendSettingOnClickListener = new Button.OnClickListener(){
         @Override
@@ -97,7 +127,7 @@ public class InitSettingActivity extends Activity {
             if(result == SendSettingActivity.NOTIFICATION_OK_PUSHED){
 
                 /*  常駐サービスが実行中の場合  */
-                boolean isService = new NoticeUtility().isRunService(MonitorService.class.getName(), getApplicationContext());
+                boolean isService = isRunService(MonitorService.class.getName(), getApplicationContext());
                 if(isService == true){
                     /*  インターバル再設定  */
                     monitorService.setCheckInterval();
@@ -194,4 +224,26 @@ public class InitSettingActivity extends Activity {
             //monitorService = null;
         }
     };
+
+    /**
+     * サービスが起動しているかを確認する
+     * @param serviceName 確認したいサービスのクラス名
+     * @param context コンテキスト
+     */
+    public boolean isRunService(String serviceName,Context context){
+        /*  サービスの一覧を取得  */
+        ActivityManager am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = am.getRunningServices(Integer.MAX_VALUE);
+
+        /*  クラス名リスト */
+        ArrayList<String> serviceNameList = new ArrayList<String>();
+
+        /*  クラス名を取得しリストに格納 */
+        for(ActivityManager.RunningServiceInfo serviceInfo : serviceList){
+            serviceNameList.add(serviceInfo.service.getClassName());
+        }
+
+        /*  引数のクラス名が含まれていたらtrueを返す  */
+        return serviceNameList.contains(serviceName);
+    }
 }

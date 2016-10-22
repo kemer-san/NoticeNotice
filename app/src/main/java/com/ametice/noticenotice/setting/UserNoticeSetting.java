@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.setting;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.ametice.noticenotice.data.NoticeSaveData;
+
 import java.util.HashMap;
 
 /**
@@ -44,17 +47,17 @@ public class UserNoticeSetting {
         this.context = context;
 
         /*  曜日リストの生成    */
-        dayOfWeekList.put(1, "日");
-        dayOfWeekList.put(2, "月");
-        dayOfWeekList.put(3, "火");
-        dayOfWeekList.put(4, "水");
-        dayOfWeekList.put(5, "木");
-        dayOfWeekList.put(6, "金");
-        dayOfWeekList.put(7, "土");
+        dayOfWeekList.put(0, "日");
+        dayOfWeekList.put(1, "月");
+        dayOfWeekList.put(2, "火");
+        dayOfWeekList.put(3, "水");
+        dayOfWeekList.put(4, "木");
+        dayOfWeekList.put(5, "金");
+        dayOfWeekList.put(6, "土");
 
-        /*  前回値を選択済みにする（日〜土[1-7]）    */
+        /*  前回値を選択済みにする（日〜土[0-6]）    */
         for(int i = 0; i < 7; i++){
-            dayOfWeekChecks[i] = new NoticeSaveData(this.context).loadDayOfWeek(i + 1);
+            dayOfWeekChecks[i] = new NoticeSaveData(this.context).loadDayOfWeek(i);
         }
 
         try {
@@ -265,7 +268,7 @@ public class UserNoticeSetting {
 
         for(i = 0; i < 7; i++){
             if(dayOfWeekChecks[i] == true){
-                strb.append(dayOfWeekList.get(i + 1));
+                strb.append(dayOfWeekList.get(i));
                 cnt++;
             }
         }
@@ -309,7 +312,7 @@ public class UserNoticeSetting {
         NoticeSaveData nsd = new NoticeSaveData(context);
 
         /*  端末内部へ曜日設定値の保存   */
-        for(int i = 0; i < 7; i++) nsd.saveDayOfWeek(i + 1, dayOfWeekChecks[i]);
+        for(int i = 0; i < 7; i++) nsd.saveDayOfWeek(i, dayOfWeekChecks[i]);
 
         /*  端末内部へ確認開始時刻の保存   */
         nsd.saveStartTime(toTimeFormat(startTimeHour, startTimeMinute));

@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,12 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import android.os.StrictMode;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.R;
+import com.ametice.noticenotice.mail.MailSender;
 
 /**
  * Created by Masato on 2015/09/26.
