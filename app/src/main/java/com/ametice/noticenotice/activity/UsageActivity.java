@@ -1,6 +1,8 @@
 package com.ametice.noticenotice.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.ametice.noticenotice.R;
 import com.ametice.noticenotice.util.UsagePageManager;
@@ -86,8 +89,18 @@ public class UsageActivity extends AppCompatActivity {
             UsagePageManager manager = UsagePageManager.getInstance();
 
             WebView webView = (WebView) rootView.findViewById(R.id.section_main);
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+                    if(url.compareTo("http://ametis.jp/notification-setting") == 0) {
+                        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                        startActivity(intent);
+                        return true;
+                    }
+                    return false;
+                }
+            });
             webView.loadUrl(manager.getPageFileUrl(sectionNumber));
-
             return rootView;
         }
     }
