@@ -1,9 +1,17 @@
+body {
+    background-color: lightblue;
+}
+
 h1 {
     color: blue;
 }
 
 h2 {
-    color: orange;
+    color: tomato;
+}
+
+p {
+    font-size: large;
 }
 
 img.full-width {
