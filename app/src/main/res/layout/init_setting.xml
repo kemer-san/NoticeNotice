@@ -15,32 +15,29 @@
             android:layout_width="fill_parent"
             android:layout_height="230dp">
 
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Notice"
-                android:id="@+id/textView3"
-                android:textColor="#275d90"
-                android:autoText="true"
-                android:textSize="130dp"
-                android:singleLine="true"
-                android:typeface="normal"
-                android:layout_weight="0.1"
-                android:gravity="center" />
+                android:layout_height="fill_parent">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="250dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="  Notice"
-                android:id="@+id/textView2"
-                android:textColor="#275d90"
-                android:autoText="true"
-                android:textSize="130dp"
-                android:layout_weight="0.1"
-                android:layout_gravity="center_vertical"
-                android:gravity="bottom|center" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView"
+                    android:layout_gravity="center"
+                    android:src="@drawable/title"
+                    android:layout_weight="8" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
         </FrameLayout>
 
@@ -116,8 +113,7 @@
             android:layout_height="match_parent"
             android:text="使い方"
                 android:id="@+id/btnUsage"
-            android:textSize="25dp"
-            android:textColor="@android:color/white"
+                android:textColor="@android:color/white"
             android:phoneNumber="false"
             android:shadowDx="1.5"
             android:shadowDy="1.5"
@@ -126,7 +122,8 @@
             android:background="#00000000"
             android:layout_weight="1"
                 android:gravity="center_vertical|right"
-                android:paddingRight="15dp" />
+                android:paddingRight="15dp"
+                android:textSize="25dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -138,10 +135,10 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2" />
+                android:layout_weight="1" />
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="送信間隔設定"
                 android:id="@+id/btnSendSetting"
@@ -154,7 +151,8 @@
                 android:shadowColor="#888"
                 android:background="#00000000"
                 android:gravity="center_vertical|right"
-                android:paddingRight="15dp" />
+                android:paddingRight="15dp"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -174,7 +172,7 @@
                 android:layout_height="match_parent"
                 android:text="送信先設定"
                 android:id="@+id/btnInputAddress"
-                android:layout_weight="1.41"
+                android:layout_weight="1.4"
                 android:gravity="center_vertical|center|right"
                 android:textSize="25dp"
                 android:textColor="@android:color/white"

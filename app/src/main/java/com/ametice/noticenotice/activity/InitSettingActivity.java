@@ -6,14 +6,18 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ametice.noticenotice.service.MonitorService;
@@ -77,7 +81,6 @@ public class InitSettingActivity extends Activity {
         /*   ユーザーの設定値のチェックと初期化   */
         NoticeSaveData nsd = new NoticeSaveData(this);
         nsd.checkUserData();
-
     }
 
     private final Button.OnClickListener btnUsageOnClickListener = new Button.OnClickListener() {
