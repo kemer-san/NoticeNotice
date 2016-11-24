@@ -21,7 +21,20 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/mail.jar')
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
+    compile files('libs/google/api/google-api-client-1.21.0.jar')
+    compile files('libs/google/api/google-api-client-android-1.21.0.jar')
+    compile files('libs/google/api/google-api-client-gson-1.21.0.jar')
+    compile files('libs/google/api/google-api-client-jackson2-1.21.0.jar')
+    compile files('libs/google/api/google-api-services-drive-v2-rev244-1.22.0.jar')
+    compile files('libs/google/api/google-api-services-gmail-v1-rev49-1.22.0.jar')
+    compile files('libs/google/api/google-api-services-plus-v1-rev470-1.22.0.jar')
+    compile files('libs/google/gson/google-gson-stream-1.7.1.jar')
+    compile files('libs/google/http/google-http-client-1.21.0.jar')
+    compile files('libs/google/http/google-http-client-android-1.21.0.jar')
+    compile files('libs/google/http/google-http-client-gson-1.21.0.jar')
+    compile files('libs/mail/activation.jar')
+    compile files('libs/mail/additionnal.jar')
+    compile files('libs/mail/mail.jar')
 }
