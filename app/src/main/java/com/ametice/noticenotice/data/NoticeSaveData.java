@@ -19,6 +19,9 @@ public class NoticeSaveData extends PreferencesManager {
     /*  メールアドレス   */
     public static final String NOTICE_USER_ADDRESS = "USER_ADDRESS";
 
+    /*  Gmailアカウント   */
+    public static final String NOTICE_USER_GMAIL_ACCOUNT = "USER_GMAIL_ACCOUNT";
+
     /*  パスコード   */
     public static final String NOTICE_USER_PASSCODE = "USER_PASSCODE";
 
@@ -75,6 +78,14 @@ public class NoticeSaveData extends PreferencesManager {
      */
     public void saveUserAddress(String address) {
         super.saveStringData(NOTICE_USER_ADDRESS, address);
+    }
+
+    /**
+     * Gmailアカウントの保存
+     * @param gmailAccount Gmailアカウント（メールアドレス）
+     */
+    public void saveUserGmailAccount(String gmailAccount) {
+        super.saveStringData(NOTICE_USER_GMAIL_ACCOUNT, gmailAccount);
     }
 
     /**
@@ -135,6 +146,13 @@ public class NoticeSaveData extends PreferencesManager {
      */
     public String loadUserAddress(){
         return  super.loadStringData(NOTICE_USER_ADDRESS);
+    }
+
+    /**
+     * メールアドレスの読み込み
+     */
+    public String loadUserGmailAccount(){
+        return  super.loadStringData(NOTICE_USER_GMAIL_ACCOUNT);
     }
 
     /**

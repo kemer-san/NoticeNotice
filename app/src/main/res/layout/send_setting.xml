@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,8 +15,73 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:id="@+id/line1"
+            android:id="@+id/line0"
             android:background="#275d90">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center_vertical" >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Gmail"
+                        android:id="@+id/text_own_gmail"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="23dp"
+                        android:textColor="@android:color/white"
+                        android:phoneNumber="false"
+                        android:shadowDx="1.5"
+                        android:shadowDy="1.5"
+                        android:shadowRadius="1.5"
+                        android:shadowColor="#888" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/text_own_gmail_msg"
+                        android:layout_weight="0.80"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:shadowDx="1.5"
+                        android:shadowDy="1.5"
+                        android:shadowRadius="1.5"
+                        android:shadowColor="#888"
+                        android:textIsSelectable="false"
+                        android:textSize="25dp" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="設定"
+                    android:id="@+id/btn_own_gmail"
+                    android:layout_weight="1"
+                    android:drawableLeft="@android:drawable/ic_menu_manage"
+                    android:background="#00000000"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/line1"
+            android:background="#3e70a1">
 
             <LinearLayout
                 android:orientation="horizontal"
