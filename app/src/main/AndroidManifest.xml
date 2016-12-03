@@ -4,7 +4,8 @@
 
     <!-- メール送信用にインターネット接続設定 -->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <!-- アカウント情報を取得するため必要 -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

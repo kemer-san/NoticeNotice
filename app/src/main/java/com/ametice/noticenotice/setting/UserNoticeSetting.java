@@ -39,7 +39,7 @@ public class UserNoticeSetting {
     /*  確認間隔   */
     private int interval = 0;
 
-    /**
+    /**UserNoticeSetting
      * コンストラクタ
      * @param context コンテキスト
      */
@@ -150,20 +150,20 @@ public class UserNoticeSetting {
 
         /*  時間選択ダイアログの生成    */
         TimePickerDialog timepickDlg= new TimePickerDialog(
-            context,
-            new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker view, int setHour, int SetMinute) {
+                context,
+                new TimePickerDialog.OnTimeSetListener() {
+                    public void onTimeSet(TimePicker view, int setHour, int SetMinute) {
                     /*   開始時刻を格納   */
-                    startTimeHour = setHour;
-                    startTimeMinute = SetMinute;
+                        startTimeHour = setHour;
+                        startTimeMinute = SetMinute;
 
                     /*   メッセージ変更   */
-                    msg.setText(getStartTimeText());
-                }
-            },
-            startTimeHour,
-            startTimeMinute,
-            true
+                        msg.setText(getStartTimeText());
+                    }
+                },
+                startTimeHour,
+                startTimeMinute,
+                true
         );
 
         /*  タイトル設定  */
@@ -322,6 +322,16 @@ public class UserNoticeSetting {
 
         /*  端末内部へ確認間隔の保存   */
         nsd.saveCheckInterval(Integer.toString(interval));
+    }
+
+    /**
+     * 端末内部へのGmailアカウント設定
+     */
+    public void saveUserGmailData(String gmailAccount){
+        NoticeSaveData nsd = new NoticeSaveData(context);
+
+        /*  端末内部へ確認間隔の保存   */
+        nsd.saveUserGmailAccount(gmailAccount);
     }
 
     /**

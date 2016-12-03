@@ -1,16 +1,24 @@
 package com.ametice.noticenotice.activity;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.ametice.noticenotice.data.NoticeSaveData;
 import com.ametice.noticenotice.R;
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.google.GoogleAccountChooser;
 import com.ametice.noticenotice.setting.UserNoticeSetting;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.services.gmail.GmailScopes;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -25,6 +33,8 @@ public class SendSettingActivity extends Activity {
     UserNoticeSetting uns;
 
     public static final int NOTIFICATION_OK_PUSHED = 1;
+    public static final int REQUEST_ACCOUNT_CHOOSER = 2;
+    private GoogleAccountCredential mCredential;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,42 +44,70 @@ public class SendSettingActivity extends Activity {
         uns = new UserNoticeSetting(context);
 
         setContentView(R.layout.send_setting);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
+        /*******************/
+        /**   Gmail        */
+        /*******************/
+        /*   Gmailボタン   */
+        Button sendOwnGmailBtn = (Button)findViewById(R.id.btn_own_gmail);
+        sendOwnGmailBtn.setOnClickListener(new SetingBtnClickListener());
+
+        /*  設定情報表示領域のハンドル生成    */
+        TextView ownGmailMsg = (TextView)findViewById(R.id.text_own_gmail_msg);
+        ownGmailMsg.setText(new NoticeSaveData(context).loadUserGmailAccount());
+
+        /*******************/
+        /**   曜日指定      */
+        /*******************/
         /*   曜日指定設定ボタン   */
         Button dayOfWeekBtn = (Button)findViewById(R.id.btn_dayofweek);
         dayOfWeekBtn.setOnClickListener(new SetingBtnClickListener());
-
-        /*   確認開始時刻設定ボタン   */
-        Button startTimeBtn = (Button)findViewById(R.id.btn_starttime);
-        startTimeBtn.setOnClickListener(new SetingBtnClickListener());
-
-        /*   確認終了時刻設定ボタン   */
-        Button endTimeBtn = (Button)findViewById(R.id.btn_endtime);
-        endTimeBtn.setOnClickListener(new SetingBtnClickListener());
-
-        /*   確認間隔設定ボタン   */
-        Button intervalBtn = (Button)findViewById(R.id.btn_interval);
-        intervalBtn.setOnClickListener(new SetingBtnClickListener());
-
-        /*   設定完了ボタン   */
-        Button sendSettingBtn = (Button)findViewById(R.id.btn_sendsetting);
-        sendSettingBtn.setOnClickListener(new SetingBtnClickListener());
 
         /*  設定情報表示領域のハンドル生成    */
         TextView dayOfWeekMsg = (TextView)findViewById(R.id.text_dayofweekmsg);
         dayOfWeekMsg.setText(getDayOfWeekText());
 
+        /*******************/
+        /**  確認開始時刻    */
+        /*******************/
+        /*   確認開始時刻設定ボタン   */
+        Button startTimeBtn = (Button)findViewById(R.id.btn_starttime);
+        startTimeBtn.setOnClickListener(new SetingBtnClickListener());
+
         /*  設定情報表示領域のハンドル生成    */
         TextView startTimeMsg = (TextView)findViewById(R.id.text_starttimemsg);
         startTimeMsg.setText(toTimeFormat(new NoticeSaveData(context).loadStartTime()));
+
+        /*******************/
+        /**  確認終了時刻    */
+        /*******************/
+        /*   確認終了時刻設定ボタン   */
+        Button endTimeBtn = (Button)findViewById(R.id.btn_endtime);
+        endTimeBtn.setOnClickListener(new SetingBtnClickListener());
 
         /*  設定情報表示領域のハンドル生成    */
         TextView endTimeMsg = (TextView)findViewById(R.id.text_endtimemsg);
         endTimeMsg.setText(toTimeFormat(new NoticeSaveData(context).loadEndTime()));
 
+        /*******************/
+        /**   確認間隔設定   */
+        /*******************/
+        /*   確認間隔設定ボタン   */
+        Button intervalBtn = (Button)findViewById(R.id.btn_interval);
+        intervalBtn.setOnClickListener(new SetingBtnClickListener());
+
         /*  設定情報表示領域のハンドル生成    */
         TextView intervalMsg = (TextView)findViewById(R.id.text_intervalmsg);
         intervalMsg.setText(toIntervalFormat(new NoticeSaveData(context).loadCheckInterval()));
+
+        /*******************/
+        /**   設定完了      */
+        /*******************/
+        /*   設定完了ボタン   */
+        Button sendSettingBtn = (Button)findViewById(R.id.btn_sendsetting);
+        sendSettingBtn.setOnClickListener(new SetingBtnClickListener());
 
     }
 
@@ -78,6 +116,17 @@ public class SendSettingActivity extends Activity {
         public void onClick(View v) {
             TextView tv;
             switch (v.getId()) {
+                case R.id.btn_own_gmail:
+                    /*  設定情報表示領域のハンドル生成    */
+//                    tv = (TextView)findViewById(R.id.text_own_gmail_msg);
+
+                    /*  ダイアログ生成 */
+                    GoogleAccountChooser gac = new GoogleAccountChooser(getApplicationContext());
+                    mCredential = gac.showAccountChooser(Arrays.asList(GmailScopes.GMAIL_SEND));
+                    startActivityForResult(mCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_CHOOSER);
+
+                    break;
+
                 case R.id.btn_dayofweek:
                     /*  設定情報表示領域のハンドル生成    */
                     tv = (TextView)findViewById(R.id.text_dayofweekmsg);
@@ -114,6 +163,9 @@ public class SendSettingActivity extends Activity {
                 case R.id.btn_sendsetting:
                     /*   端末内部へ設定値の一括保存   */
                     uns.saveTimeData();
+
+                    /*   Gmailアカウントの保存   */
+                    uns.saveUserGmailData(mCredential.getSelectedAccountName());
 
                     /*  遷移元に値を返す（OKボタンが押下されました）    */
                     setResult(NOTIFICATION_OK_PUSHED);
@@ -215,4 +267,20 @@ public class SendSettingActivity extends Activity {
 
         return intervalText;
     }
- }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_ACCOUNT_CHOOSER:
+                if (resultCode == RESULT_OK && data != null) {
+                    String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        Log.d("accountName::::", accountName);
+                        mCredential.setSelectedAccountName(accountName);
+                    }
+                }
+                break;
+        }
+    }
+}
