@@ -2,13 +2,18 @@ package com.ametice.noticenotice.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ametice.noticenotice.data.NoticeSaveData;
@@ -55,6 +60,7 @@ public class InputAddressActivity extends Activity {
         };
 
         txtEmailAddress.setFilters(new InputFilter[]{filter});
+
     }
 
     // endregion
@@ -77,6 +83,23 @@ public class InputAddressActivity extends Activity {
 
         //次へボタン押下時のアクション
         btnSendMessage.setOnClickListener(btnSendMessageOnClickListener);
+
+        //テキスト入力でエンター入力があった場合の動作
+       txtEmailAddress.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    //ソフトキーボードを隠す
+                    ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    //次へボタン押下時のアクションと同じ
+                    btnSendMessage.performClick();
+                    handled = true;
+                }
+                return handled; // このメソッド中でアクションを消化したら true を返す。
+            }
+        });
+
     }
 
     private final View.OnClickListener btnSendMessageOnClickListener = new View.OnClickListener() {
