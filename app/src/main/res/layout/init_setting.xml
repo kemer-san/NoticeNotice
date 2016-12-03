@@ -7,27 +7,29 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="230dp">
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
 
                 <Space
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="fill_parent"
                     android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="fill_parent"
                     android:id="@+id/imageView"
                     android:layout_gravity="center"
                     android:src="@drawable/title"
@@ -35,27 +37,27 @@
 
                 <Space
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="fill_parent"
                     android:layout_weight="1" />
             </LinearLayout>
 
-        </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="bottom">
 
             <Space
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3.93"/>
+                android:layout_height="fill_parent"
+                android:layout_weight="4"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:text="起動"
                 android:id="@+id/textView"
                 android:textSize="25dp"
@@ -64,12 +66,12 @@
 
             <Space
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.51" />
+                android:layout_height="fill_parent"
+                android:layout_weight="1.5" />
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:text="On/Off"
                 android:textSize="21dp"
                 android:id="@+id/swOnOff"
@@ -78,7 +80,7 @@
 
             <Space
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:layout_weight="2.5"/>
         </LinearLayout>
 
