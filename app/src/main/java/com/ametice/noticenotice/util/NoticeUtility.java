@@ -1,4 +1,4 @@
-package com.ametice.noticenotice;
+package com.ametice.noticenotice.util;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -19,7 +19,7 @@ public class NoticeUtility {
      * @param serviceName 確認したいサービスのクラス名
      * @param context コンテキスト
      */
-    public boolean isRunService(String serviceName,Context context){
+    public static boolean isRunService(String serviceName,Context context){
         /*  サービスの一覧を取得  */
         ActivityManager am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> serviceList = am.getRunningServices(Integer.MAX_VALUE);

@@ -47,7 +47,7 @@
                         android:shadowRadius="1.5"
                         android:shadowColor="#888" />
 
-                    <TextView
+                    <com.ametice.noticenotice.view.ResizableTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -111,7 +111,7 @@
                         android:shadowColor="#888"
                         android:textColor="@android:color/white" />
 
-                    <TextView
+                    <com.ametice.noticenotice.view.ResizableTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -178,7 +178,7 @@
                         android:shadowRadius="1.5"
                         android:shadowColor="#888"/>
 
-                    <TextView
+                    <com.ametice.noticenotice.view.ResizableTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -241,7 +241,7 @@
                         android:shadowColor="#888"
                         android:textColor="@android:color/white" />
 
-                    <TextView
+                    <com.ametice.noticenotice.view.ResizableTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -305,7 +305,7 @@
                         android:shadowRadius="1.5"
                         android:shadowColor="#888" />
 
-                    <TextView
+                    <com.ametice.noticenotice.view.ResizableTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
