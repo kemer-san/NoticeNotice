@@ -1,22 +1,20 @@
 package com.ametice.noticenotice.mail;
 
-import android.content.SharedPreferences;
-import android.os.StrictMode;
-import android.preference.PreferenceManager;
+import android.content.Context;
+
+import com.ametice.noticenotice.R;
 
 import java.util.Properties;
 
-import javax.mail.PasswordAuthentication;
 import javax.mail.MessagingException;
-import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.AddressException;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.Multipart;
 
 
 /**
@@ -24,16 +22,23 @@ import javax.mail.Multipart;
  */
 
 public class MailSender {
-    private Properties properties;
+    private Properties properties;  //システムプロパティ
+    private Context context;        //アプリケーションコンテキスト
 
-    public MailSender(){
+
+    /**
+     * メール送信クラス
+     * @param context   アプリケーションコンテキスト
+     */
+    public MailSender(Context context){
+        this.context = context;
         properties = System.getProperties();
     }
 
     public void send(String MailAd,String subject, String body){
         // 送信用アドレス・パスワード
-        String smtp_email = "NoticeNotice.apl@gmail.com";
-        String smtp_password = "ametissince2015";
+        String smtp_email = context.getString(R.string.smtp_email);
+        String smtp_password = context.getString(R.string.smtp_password);
 
         try {
             //以下メール送信

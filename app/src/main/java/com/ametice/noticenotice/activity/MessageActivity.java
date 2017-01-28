@@ -224,7 +224,7 @@ public class MessageActivity extends Activity {
                 sbBodyText.append(passCode);
 
                 // メール送信
-                MailSender ms = new MailSender();
+                MailSender ms = new MailSender(getApplicationContext());
                 ms.send(Address, Subject.toString(), sbBodyText.toString());
             } catch (Exception e) {
                 return e.toString();

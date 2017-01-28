@@ -283,10 +283,10 @@ public class SendSettingActivity extends Activity {
                         /** 選択したアカウント名をOAuthに設定    */
                         mCredential.setSelectedAccountName(accountName);
 
-//
+                        /** Debug用（アカウント設定時にメール送信がされる）  */
 //                        GmailSender gs = new GmailSender(mCredential);
-//                        gs.sendGmail("multiplatform.world@gmail.com", accountName, "test", "testest");
-//
+//                        Log.d("gmail::accountName", accountName);
+//                        gs.sendGmail(accountName, accountName, "test", "testest");
 
                         /*  設定表示領域にアカウント名表示    */
                         ResizableTextView tv = (ResizableTextView)findViewById(R.id.text_own_gmail_msg);
