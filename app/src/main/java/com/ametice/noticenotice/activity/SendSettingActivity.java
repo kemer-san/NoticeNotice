@@ -15,6 +15,7 @@ import com.ametice.noticenotice.R;
 import com.ametice.noticenotice.data.NoticeSaveData;
 import com.ametice.noticenotice.google.GoogleAccountChooser;
 import com.ametice.noticenotice.setting.UserNoticeSetting;
+import com.ametice.noticenotice.view.ResizableTextView;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.gmail.GmailScopes;
 
@@ -29,8 +30,9 @@ import java.util.HashMap;
  */
 public class SendSettingActivity extends Activity {
 
-    Context context;
-    UserNoticeSetting uns;
+    private Context context;
+    private UserNoticeSetting uns;
+    private String accountName = "";
 
     public static final int NOTIFICATION_OK_PUSHED = 1;
     public static final int REQUEST_ACCOUNT_CHOOSER = 2;
@@ -56,7 +58,8 @@ public class SendSettingActivity extends Activity {
 
         /*  設定情報表示領域のハンドル生成    */
         TextView ownGmailMsg = (TextView)findViewById(R.id.text_own_gmail_msg);
-        ownGmailMsg.setText(new NoticeSaveData(context).loadUserGmailAccount());
+        accountName = new NoticeSaveData(context).loadUserGmailAccount();
+        ownGmailMsg.setText(accountName);
 
         /*******************/
         /**   曜日指定      */
@@ -114,12 +117,9 @@ public class SendSettingActivity extends Activity {
     /*      ボタンイベントリスナー  */
     private class SetingBtnClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            TextView tv;
+            ResizableTextView tv;
             switch (v.getId()) {
                 case R.id.btn_own_gmail:
-                    /*  設定情報表示領域のハンドル生成    */
-//                    tv = (TextView)findViewById(R.id.text_own_gmail_msg);
-
                     /*  ダイアログ生成 */
                     GoogleAccountChooser gac = new GoogleAccountChooser(getApplicationContext());
                     mCredential = gac.showAccountChooser(Arrays.asList(GmailScopes.GMAIL_SEND));
@@ -129,7 +129,7 @@ public class SendSettingActivity extends Activity {
 
                 case R.id.btn_dayofweek:
                     /*  設定情報表示領域のハンドル生成    */
-                    tv = (TextView)findViewById(R.id.text_dayofweekmsg);
+                    tv = (ResizableTextView)findViewById(R.id.text_dayofweekmsg);
 
                     /*  ダイアログ生成 */
                     uns.onDayOfWeekSetting(tv);
@@ -137,7 +137,7 @@ public class SendSettingActivity extends Activity {
 
                 case R.id.btn_starttime:
                     /*  設定情報表示領域のハンドル生成    */
-                    tv = (TextView)findViewById(R.id.text_starttimemsg);
+                    tv = (ResizableTextView)findViewById(R.id.text_starttimemsg);
 
                     /*  ダイアログ生成 */
                     uns.onStartTimeSetting(tv);
@@ -145,7 +145,7 @@ public class SendSettingActivity extends Activity {
 
                 case R.id.btn_endtime:
                     /*  設定情報表示領域のハンドル生成    */
-                    tv = (TextView)findViewById(R.id.text_endtimemsg);
+                    tv = (ResizableTextView)findViewById(R.id.text_endtimemsg);
 
                     /*  ダイアログ生成 */
                     uns.onEndTimeSetting(tv);
@@ -154,7 +154,7 @@ public class SendSettingActivity extends Activity {
 
                 case R.id.btn_interval:
                     /*  設定情報表示領域のハンドル生成    */
-                    tv = (TextView)findViewById(R.id.text_intervalmsg);
+                    tv = (ResizableTextView)findViewById(R.id.text_intervalmsg);
 
                     /*  ダイアログ生成 */
                     uns.onIntervalSetting(tv);
@@ -165,7 +165,7 @@ public class SendSettingActivity extends Activity {
                     uns.saveTimeData();
 
                     /*   Gmailアカウントの保存   */
-                    uns.saveUserGmailData(mCredential.getSelectedAccountName());
+                    uns.saveUserGmailData(accountName);
 
                     /*  遷移元に値を返す（OKボタンが押下されました）    */
                     setResult(NOTIFICATION_OK_PUSHED);
@@ -272,12 +272,25 @@ public class SendSettingActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            /** Gmailアカウント選択時のコールバック    */
             case REQUEST_ACCOUNT_CHOOSER:
                 if (resultCode == RESULT_OK && data != null) {
-                    String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    /** 選択したアカウント名を取得    */
+                    accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
-                        Log.d("accountName::::", accountName);
+                        Log.d("accountName:", accountName);
+
+                        /** 選択したアカウント名をOAuthに設定    */
                         mCredential.setSelectedAccountName(accountName);
+
+//
+//                        GmailSender gs = new GmailSender(mCredential);
+//                        gs.sendGmail("multiplatform.world@gmail.com", accountName, "test", "testest");
+//
+
+                        /*  設定表示領域にアカウント名表示    */
+                        ResizableTextView tv = (ResizableTextView)findViewById(R.id.text_own_gmail_msg);
+                        tv.setText(accountName);
                     }
                 }
                 break;

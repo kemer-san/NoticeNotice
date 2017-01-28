@@ -16,11 +16,15 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ametice.noticenotice.data.NoticeSaveData;
 import com.ametice.noticenotice.R;
-import com.ametice.noticenotice.mail.MailSender;
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.google.GmailSender;
+import com.ametice.noticenotice.google.GoogleAccountChooser;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.services.gmail.GmailScopes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -293,10 +297,10 @@ public class MonitorService extends Service {
 
                 /*  端末内部からメールアドレスとパスコードを取得    */
                 NoticeSaveData nsd = new NoticeSaveData(getApplicationContext());
-                String Address = nsd.loadUserAddress();
+                String toAddress = nsd.loadUserAddress();
 
                 /*  メールタイトル取得    */
-                String Subject = getString(R.string.mail_subject_notice_send);
+                String subject = getString(R.string.mail_subject_notice_send);
 
                 /*  メール本文生成    */
                 String MailtextHeader = getString(R.string.mail_subject_notice_text);
@@ -311,8 +315,16 @@ public class MonitorService extends Service {
                 Log.d("debug_All", Mailtext.toString());
 
                 // メール送信
-                MailSender ms = new MailSender();
-                ms.send(Address, Subject, Mailtext.toString());
+//                MailSender ms = new MailSender();
+//                ms.send(Address, Subject, Mailtext.toString());
+                GoogleAccountCredential credential = new GoogleAccountChooser(getApplicationContext()).showAccountChooser(Arrays.asList(GmailScopes.GMAIL_SEND));
+                String accountName = nsd.loadUserGmailAccount();
+                Log.d("send:accountName", accountName);
+                Log.d("send:toAddress", toAddress);
+                credential.setSelectedAccountName(accountName);
+                GmailSender gs = new GmailSender(credential);
+                gs.sendGmail(toAddress, accountName, subject, Mailtext.toString());
+
 
                 /*  通知文字列の初期化   */
                 noticeList.clear();
