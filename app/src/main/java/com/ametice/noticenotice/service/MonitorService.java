@@ -301,6 +301,7 @@ public class MonitorService extends Service {
 
                 /*  メールタイトル取得    */
                 String subject = getString(R.string.mail_subject_notice_send);
+                Log.d("subject", subject);
 
                 /*  メール本文生成    */
                 String MailtextHeader = getString(R.string.mail_subject_notice_text);
@@ -317,12 +318,24 @@ public class MonitorService extends Service {
                 // メール送信
 //                MailSender ms = new MailSender();
 //                ms.send(Address, Subject, Mailtext.toString());
+
+                /*  送信用Googleインスタンスを生成   */
                 GoogleAccountCredential credential = new GoogleAccountChooser(getApplicationContext()).showAccountChooser(Arrays.asList(GmailScopes.GMAIL_SEND));
+
+                /**  送信元のGmailアカウント名を端末内部の設定ファイルから取得   */
                 String accountName = nsd.loadUserGmailAccount();
+
+                /** 開発用デバッグ文    */
                 Log.d("send:accountName", accountName);
                 Log.d("send:toAddress", toAddress);
+
+                /*  送信用Googleインスタンスに送信元のアカウントを設定  */
                 credential.setSelectedAccountName(accountName);
+
+                /*  Gmail送信インスタンスを生成   */
                 GmailSender gs = new GmailSender(credential);
+
+                /** Gmail送信  */
                 gs.sendGmail(toAddress, accountName, subject, Mailtext.toString());
 
 
