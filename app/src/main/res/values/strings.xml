@@ -9,6 +9,54 @@
     <string name="usage">使用方法</string>
     <string name="title_activity_usage">UsageActivity</string>
 
+    <!--TOP画面-->
+    <string name="toast_message_noticenotice_on">通知機能がONになりました</string>
+    <string name="toast_message_noticenotice_off">通知機能がOFFになりました</string>
+
+    <!--設定画面-->
+    <string name="list_item_name_dayofweek">曜日指定</string>
+    <string name="list_item_name_starttime">確認開始時刻</string>
+    <string name="list_item_name_endtime">確認終了時刻</string>
+    <string name="list_item_name_interval">確認間隔</string>
+
+    <!--設定画面:曜日-->
+    <string-array name="noticenotice_dayofweek_setting_display_items">
+        <item>日</item>
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+    </string-array>
+
+    <string-array name="noticenotice_dayofweek_setting_selectable_items">
+        <item>日曜日</item>
+        <item>月曜日</item>
+        <item>火曜日</item>
+        <item>水曜日</item>
+        <item>木曜日</item>
+        <item>金曜日</item>
+        <item>土曜日</item>
+    </string-array>
+
+    <!--設定画面:通知確認間隔-->
+    <string-array name="noticenotice_interval_setting_selectable_items">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+
+    <!-- Commons -->
+    <string name="hour">時</string>
+    <string name="minute">分</string>
+    <string name="second">秒</string>
+
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">キャンセル</string>
+
     <!--Gmail送信用アカウント-->
     <string name="mail_subject_notice_send">通知を取得しました</string>
     <string name="mail_subject_notice_text">あなたの端末で以下の通知を取得しました。</string>

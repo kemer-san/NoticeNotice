@@ -6,23 +6,18 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ametice.noticenotice.service.MonitorService;
-import com.ametice.noticenotice.data.NoticeSaveData;
 import com.ametice.noticenotice.R;
+import com.ametice.noticenotice.data.NoticeSaveData;
+import com.ametice.noticenotice.service.MonitorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,28 +85,8 @@ public class InitSettingActivity extends Activity {
             // 使い方画面の起動
             Intent intent = new Intent(getApplicationContext(), UsageActivity.class);
             startActivity(intent);
-
-//            onDebug();
         }
     };
-
-    private void onDebug(){
-        int cnt =0;
-        boolean dayOfWeekChecks[] = new boolean[7];
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < 7; i++) {
-            if (new NoticeSaveData(getApplicationContext()).loadDayOfWeek(i) == true) {
-            /*  前回値の設定数をカウント    */
-                dayOfWeekChecks[i] = new NoticeSaveData(getApplicationContext()).loadDayOfWeek(i);
-                cnt++;
-                sb.append(Integer.toString(i)+",");
-            }
-        }
-        Log.d("cnt:",Integer.toString(cnt));
-        Log.d("checks:",sb.toString());
-        Toast.makeText(InitSettingActivity.this, "cnt:" + Integer.toString(cnt) , Toast.LENGTH_SHORT).show();
-        Toast.makeText(InitSettingActivity.this, "checks:" + sb.toString(), Toast.LENGTH_SHORT).show();
-    }
 
     private final Button.OnClickListener btnSendSettingOnClickListener = new Button.OnClickListener(){
         @Override
@@ -164,7 +139,7 @@ public class InitSettingActivity extends Activity {
             // 状態が変更されたときのアクション
             if (isChecked) {
                 /*  トーストを表示  */
-                Toast.makeText(InitSettingActivity.this, "通知機能がONになりました", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InitSettingActivity.this, getApplicationContext().getString(R.string.toast_message_noticenotice_on), Toast.LENGTH_SHORT).show();
 
                 /*  常駐サービスを起動   */
                 startService(service);
@@ -174,7 +149,7 @@ public class InitSettingActivity extends Activity {
 
             } else {
                 /*  トーストを表示  */
-                Toast.makeText(InitSettingActivity.this, "通知機能がOFFになりました", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InitSettingActivity.this, getApplicationContext().getString(R.string.toast_message_noticenotice_off), Toast.LENGTH_SHORT).show();
 
                 /*  通知取得サービスの停止 */
                 monitorService.offNotice();

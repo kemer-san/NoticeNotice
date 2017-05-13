@@ -35,4 +35,14 @@ public class NoticeUtility {
         /*  引数のクラス名が含まれていたらtrueを返す  */
         return serviceNameList.contains(serviceName);
     }
+
+    /**
+     * 表示用時刻フォーマット変換
+     * @param hour 時間
+     * @param minute 分
+     * @return 表示用時刻文字列"時間:分"
+     */
+    public static String toTimeFormat(int hour, int minute){
+        return Integer.toString(hour) + ":" + Integer.toString(minute);
+    }
 }
