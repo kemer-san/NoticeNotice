@@ -25,7 +25,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="アドレスを入力してください"
+                android:text="@string/message_address_input"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:id="@+id/lblInputAddress" />
@@ -72,7 +72,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="次へ"
+            android:text="@string/button_next"
             android:id="@+id/btnSendMessage"
             android:layout_weight="3" />
 

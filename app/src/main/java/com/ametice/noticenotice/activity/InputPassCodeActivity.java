@@ -88,12 +88,7 @@ public class InputPassCodeActivity extends Activity {
                 // 不一致の時の処理
 
                 // トーストを表示
-                Toast
-                        .makeText(
-                                InputPassCodeActivity.this,
-                                "送信されたパスコードと一致しません。",
-                                Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(InputPassCodeActivity.this,getString(R.string.message_illegal_passcode),Toast.LENGTH_SHORT).show();
             }
         }
     };

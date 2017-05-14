@@ -112,15 +112,11 @@ public class MessageActivity extends Activity {
         /* 前画面で入力されたメールアドレスを取得   */
         final String Address = intent.getStringExtra("EmailAddress");
 
-        /*  メッセージを整形    */
-        String message1 = Address + "へ送信します。";
-        String message2 = "よろしいですか？";
-
         /*  表示用ラベルをセット  */
-        msgText1.setText(message1);
-        msgText2.setText(message2);
-        btn.setText("送信");
-        bkbtn.setText("戻る");
+        msgText1.setText(Address + getString(R.string.message_sendto_1));
+        msgText2.setText(getString(R.string.message_sendto_2));
+        btn.setText(getString(R.string.button_send));
+        bkbtn.setText(getString(R.string.button_back));
 
         /*  戻るボタンを押下時のアクション */
         bkbtn.setOnClickListener(new View.OnClickListener() {
@@ -172,13 +168,13 @@ public class MessageActivity extends Activity {
         String Address = nsd.loadUserAddress();
 
             /*  メッセージを整形    */
-        String message1 = "認証が成功しました。";
+        String message1 = getString(R.string.message_authentication_success);
         String message2 = Address;
 
         /*  表示用ラベルをセット  */
         msgText1.setText(message1);
         msgText2.setText(message2);
-        btn.setText("完了");
+        btn.setText(getString(R.string.button_complete));
         // 認証完了モードの場合、戻るボタンは隠す
         bkbtn.setVisibility(View.INVISIBLE);
 
@@ -215,8 +211,8 @@ public class MessageActivity extends Activity {
                 /*  端末内部からメールアドレスとパスコードを取得    */
                 NoticeSaveData nsd = new NoticeSaveData(context);
                 String Address = nsd.loadUserAddress();
-                String Subject = "[NoticeNotice]メール送信設定認証用パスコード";
-                String MailText = "これはあなたの端末への送信先設定用のパスコードになります。\n\n パスコード：";
+                String Subject = getString(R.string.mail_subject_address_setting);
+                String MailText = getString(R.string.mail_body_address_setting);
                 String passCode = nsd.loadUserPassCode();
 
                 StringBuilder sbBodyText = new StringBuilder();
@@ -235,12 +231,7 @@ public class MessageActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
             // トーストを表示
-            Toast
-                    .makeText(
-                            getBaseContext(),
-                            "パスコードを記載したメールを送信しました",
-                            Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(getBaseContext(), getString(R.string.toast_message_passcode_mail_sent), Toast.LENGTH_SHORT).show();
         }
     }
 

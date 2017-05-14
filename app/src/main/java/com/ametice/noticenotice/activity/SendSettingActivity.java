@@ -17,7 +17,6 @@ import android.widget.TimePicker;
 import com.ametice.noticenotice.R;
 import com.ametice.noticenotice.data.NoticeSaveData;
 import com.ametice.noticenotice.google.GoogleAccountChooser;
-import com.ametice.noticenotice.util.NoticeUtility;
 import com.ametice.noticenotice.view.ResizableTextView;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.gmail.GmailScopes;
@@ -38,25 +37,22 @@ public class SendSettingActivity extends Activity {
     public static final int NOTIFICATION_OK_PUSHED = 1;
     public static final int REQUEST_ACCOUNT_CHOOSER = 2;
 
-    private GoogleAccountCredential mCredential;
+    private GoogleAccountCredential credential;
 
     /*  Gmailアカウント名    */
     private String accountName = "";
-    
+
     /*  曜日チェックの状態    */
-    private boolean dayOfWeekChecks[] = new boolean[7];
+    private DayOfWeek dayOfWeekChecks = new DayOfWeek();
 
     /*  開始時刻    */
-    private int startTimeHour = 0;
-    private int startTimeMinute = 0;
+    private Time startTime = new Time();
 
     /*  終了時刻    */
-    private int endTimeHour = 0;
-    private int endTimeMinute = 0;
+    private Time endTime = new Time();
 
     /*  確認間隔   */
-    private String interval = "";
-
+    private String interval = "60";
 
     /*  設定項目表示領域   */
     private TextView dayOfWeekField;
@@ -99,8 +95,8 @@ public class SendSettingActivity extends Activity {
         });
 
         /*  前回値を選択済みにする（日〜土[0-6]）    */
-        for(int i = 0; i < 7; i++){
-            dayOfWeekChecks[i] = new NoticeSaveData(this).loadDayOfWeek(i);
+        for(int i = 0; i < dayOfWeekChecks.size(); i++){
+            dayOfWeekChecks.set(i, new NoticeSaveData(this).loadDayOfWeek(i));
         }
 
         /*  設定情報表示領域のハンドル生成    */
@@ -118,19 +114,13 @@ public class SendSettingActivity extends Activity {
             }
         });
 
-        try {
-             /*  前回値を設定する  */
-            String splitStartTime[] = new NoticeSaveData(this).loadStartTime().split(":", 2);
-            startTimeHour = Integer.parseInt(splitStartTime[0]);
-            startTimeMinute = Integer.parseInt(splitStartTime[1]);
-        }catch (Exception e){
-            endTimeHour = 0;
-            startTimeMinute = 0;
-        }
+        /*  前回値を設定する  */
+        String splitStartTime[] = new NoticeSaveData(this).loadStartTime().split(":", 2);
+        startTime.setTime(Integer.parseInt(splitStartTime[0]), Integer.parseInt(splitStartTime[1]));
 
         /*  設定情報表示領域のハンドル生成    */
         startTimeField = (TextView)findViewById(R.id.text_starttimemsg);
-        startTimeField.setText(toTimeFormat(new NoticeSaveData(getApplicationContext()).loadStartTime()));
+        startTimeField.setText(startTime.toFormat());
 
         /*******************/
         /**  確認終了時刻    */
@@ -143,19 +133,13 @@ public class SendSettingActivity extends Activity {
             }
         });
 
-        try {
-            /*  前回値を設定する  */
-            String splitEndTime[] = new NoticeSaveData(this).loadEndTime().split(":", 2);
-            endTimeHour = Integer.parseInt(splitEndTime[0]);
-            endTimeMinute = Integer.parseInt(splitEndTime[1]);
-        }catch (Exception e){
-            startTimeHour = 0;
-            startTimeMinute = 0;
-        }
+        /*  前回値を設定する  */
+        String splitEndTime[] = new NoticeSaveData(this).loadEndTime().split(":", 2);
+        endTime.setTime(Integer.parseInt(splitEndTime[0]), Integer.parseInt(splitEndTime[1]));
 
         /*  設定情報表示領域のハンドル生成    */
         endTimeField = (TextView)findViewById(R.id.text_endtimemsg);
-        endTimeField.setText(toTimeFormat(new NoticeSaveData(getApplicationContext()).loadEndTime()));
+        endTimeField.setText(endTime.toFormat());
 
         /*******************/
         /**   確認間隔設定   */
@@ -168,20 +152,17 @@ public class SendSettingActivity extends Activity {
             }
         });
 
-        try {
-            /*  前回値を設定する  */
-            interval = new NoticeSaveData(this).loadCheckInterval();
-        }catch(Exception e){
-            interval = "60";
-        }
+        /*  前回値を設定する  */
+        interval = new NoticeSaveData(this).loadCheckInterval();
 
         /*  設定情報表示領域のハンドル生成    */
         intervalField = (TextView)findViewById(R.id.text_intervalmsg);
 
         /*  確認間隔設定    */
         String interval =  new NoticeSaveData(getApplicationContext()).loadCheckInterval();
-        String intervalFieldtext = (interval.equals("0") == true || interval.equals("") == true)?"none":interval + "分";
-
+        String intervalFieldtext = (interval.equals("0") == true || interval.equals("") == true)?
+                getApplicationContext().getString(R.string.dayofweek_none):
+                interval + getApplicationContext().getString(R.string.minute);
         intervalField.setText(intervalFieldtext);
 
         /*******************/
@@ -197,17 +178,12 @@ public class SendSettingActivity extends Activity {
     }
 
     /**
-     * 曜日指定ダイアログ表示メソッド
+     * 曜日指定ダイアログを表示する
      */
-    public void showDayOfWeekSetting(boolean dayOfWeekChecks[]){
-
-        /*  確定前曜日情報 */
-        final boolean selectedDays[] = new boolean[7];
+    public void showDayOfWeekSetting(DayOfWeek dayOfWeekChecks){
 
         /*  既存の曜日情報をコピー  */
-        for(int i = 0; i < 7; i++){
-            selectedDays[i] = dayOfWeekChecks[i];
-        }
+        final DayOfWeek selectedDays = (DayOfWeek) dayOfWeekChecks.clone();
 
         /*  ダイアログ設定 */
         AlertDialog.Builder checkDlg = new AlertDialog.Builder(SendSettingActivity.this);
@@ -221,17 +197,17 @@ public class SendSettingActivity extends Activity {
         /*  曜日選択ダイアログの生成   */
         checkDlg.setMultiChoiceItems(
             chkItems,
-            selectedDays,
+            selectedDays.toBoolArray(),
             new DialogInterface.OnMultiChoiceClickListener() {
                 public void onClick(DialogInterface dialog, int which, boolean selected) {
                     /*  各曜日のチェック状態を格納  */
-                    selectedDays[which] = selected;
+                    selectedDays.set(which, selected);
                 }
             }
         );
 
         /*  OKボタンを定義    */
-        checkDlg.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        checkDlg.setPositiveButton(getApplicationContext().getString(R.string.button_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 /*   メッセージ変更   */
                 dayOfWeekField.setText(createDayOfWeekText(selectedDays));
@@ -246,7 +222,7 @@ public class SendSettingActivity extends Activity {
     }
 
     /**
-     * 確認終了時刻ダイアログ表示メソッド
+     * 確認終了時刻ダイアログを表示する
      */
     public void showStartTimeSetting(){
         /*  時間選択ダイアログの生成    */
@@ -254,16 +230,14 @@ public class SendSettingActivity extends Activity {
             SendSettingActivity.this,
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int setHour, int SetMinute) {
-                /*   開始時刻を格納   */
-                startTimeHour = setHour;
-                startTimeMinute = SetMinute;
+                    /*   開始時刻を格納   */
+                    startTime.setTime(setHour, SetMinute);
 
-                /*   メッセージ変更   */
-                startTimeField.setText(String.format("%1$02d", startTimeHour) + ":" + String.format("%1$02d", startTimeMinute));}
+                    /*   メッセージ変更   */
+                    startTimeField.setText(startTime.toFormat());
+                }
             },
-            startTimeHour,
-            startTimeMinute,
-            true
+            startTime.getHour(), startTime.getMinute(), true
         );
 
         /*  タイトル設定  */
@@ -274,7 +248,7 @@ public class SendSettingActivity extends Activity {
     }
 
     /**
-     * 確認終了時刻ダイアログ表示メソッド
+     * 確認終了時刻ダイアログを表示する
      */
     public void showEndTimeSetting(){
         /*  時間選択ダイアログの生成    */
@@ -283,27 +257,24 @@ public class SendSettingActivity extends Activity {
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int setHour, int SetMinute) {
                     /*   開始時刻を格納   */
-                    endTimeHour = setHour;
-                    endTimeMinute = SetMinute;
+                    endTime.setTime(setHour, SetMinute);
 
                     /*   メッセージ変更   */
-                    endTimeField.setText(String.format("%1$02d", endTimeHour) + ":" + String.format("%1$02d", endTimeMinute));
+                    endTimeField.setText(endTime.toFormat());
                 }
             },
-            endTimeHour,
-            endTimeMinute,
-            true
+            endTime.getHour(), endTime.getMinute(), true
         );
 
         /*  タイトル設定  */
-        timepickDlg.setTitle(getApplicationContext().getString(R.string.list_item_name_endtime));
+        timepickDlg.setTitle(getString(R.string.list_item_name_endtime));
 
         /*  ダイアログ表示  */
         timepickDlg.show();
     }
 
     /**
-     * 確認間隔設定ダイアログ表示メソッド
+     * 確認間隔設定ダイアログを表示する
      */
     public void showIntervalSettingDialog(){
 
@@ -311,14 +282,14 @@ public class SendSettingActivity extends Activity {
         AlertDialog.Builder intervalSelectDialog = new AlertDialog.Builder(SendSettingActivity.this);
 
         /*  タイトル設定  */
-        intervalSelectDialog.setTitle(getApplicationContext().getString(R.string.list_item_name_interval));
+        intervalSelectDialog.setTitle(getString(R.string.list_item_name_interval));
 
         /*  定義ファイルから選択可能時間（分単位）を取得 */
         final String[] selectableItems = getResources().getStringArray(R.array.noticenotice_interval_setting_selectable_items);
 
         /*  選択可能時間（分単位）の語尾に「分」を追加したリストを生成する */
         List<String> selectableDisplayItems = new ArrayList<String>();
-        for (String item:selectableItems)selectableDisplayItems.add(item + getApplicationContext().getString(R.string.minute));
+        for (String item:selectableItems)selectableDisplayItems.add(item + getString(R.string.minute));
 
         /*  確認間隔設定ダイアログ生成   */
         intervalSelectDialog.setItems((String[])selectableDisplayItems.toArray(new String[]{}),new DialogInterface.OnClickListener() {
@@ -342,7 +313,7 @@ public class SendSettingActivity extends Activity {
      *              0個："none"
      *              全て："everyday"
      */
-    public String createDayOfWeekText(boolean dayOfWeekChecks[]){
+    public String createDayOfWeekText(DayOfWeek dayOfWeekChecks){
 
         /*  定義ファイルから選択可能アイテム（曜日）を取得 */
         final String[] dayOfWeekText = getResources().getStringArray(R.array.noticenotice_dayofweek_setting_display_items);
@@ -357,39 +328,17 @@ public class SendSettingActivity extends Activity {
         }
 
         /* 曜日が１つも選択されていない場合 */
-        if(checkedCount == 0)return "none";
+        if(checkedCount == 0)return getString(R.string.dayofweek_none);
 
         /* 曜日が全て選択されている場合 */
-        if(checkedCount == 7)return "everyday";
+        if(checkedCount == 7)return getString(R.string.dayofweek_everyday);
 
         /* 曜日を連結した文字列を生成する */
-        for (int i = 0; i < dayOfWeekChecks.length; i++) {
-            if(dayOfWeekChecks[i])rtnText.append(dayOfWeekText[i]);
+        for (int i = 0; i < dayOfWeekChecks.size(); i++) {
+            if(dayOfWeekChecks.get(i))rtnText.append(dayOfWeekText[i]);
         }
 
         return rtnText.toString();
-    }
-
-    /**
-     * 表示用時刻フォーマット変換
-     * @param time 時刻文字列
-     * @return 表示用時刻文字列
-     */
-    private String toTimeFormat(String time){
-        int hour;
-        int minute;
-        try {
-             /*  文字列分割   */
-            String splitTime[] = time.split(":", 2);
-            hour = Integer.parseInt(splitTime[0]);
-            minute = Integer.parseInt(splitTime[1]);
-        }catch (Exception e){
-            hour = 0;
-            minute = 0;
-        }
-
-        /*  2ケタの時刻文字列を生成   */
-        return String.format("%1$02d", hour)+ ":" + String.format("%1$02d", minute);
     }
 
     /**
@@ -399,8 +348,8 @@ public class SendSettingActivity extends Activity {
     private void onClickGmailButton(View v){
         /*  ダイアログ生成 */
         GoogleAccountChooser gac = new GoogleAccountChooser(SendSettingActivity.this);
-        mCredential = gac.showAccountChooser(Arrays.asList(GmailScopes.GMAIL_SEND));
-        startActivityForResult(mCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_CHOOSER);
+        this.credential = gac.showAccountChooser(Arrays.asList(GmailScopes.GMAIL_SEND));
+        startActivityForResult(this.credential.newChooseAccountIntent(), REQUEST_ACCOUNT_CHOOSER);
     }
 
     /**
@@ -445,10 +394,7 @@ public class SendSettingActivity extends Activity {
      */
     private void onClickCompleteButton(View v){
          /*   端末内部へ設定値の一括保存   */
-        saveTimeData();
-
-        /*   Gmailアカウントの保存   */
-        saveUserGmailData(accountName);
+        saveUserData();
 
         /*  遷移元に値を返す（OKボタンが押下されました）    */
         setResult(NOTIFICATION_OK_PUSHED);
@@ -456,33 +402,47 @@ public class SendSettingActivity extends Activity {
         /*   アクティビティを破棄し遷移前画面に戻る   */
         finish();
     }
-    /**
-     * 端末内部へのGmailアカウント設定
-     */
-    private void saveUserGmailData(String gmailAccount){
-        NoticeSaveData nsd = new NoticeSaveData(getApplicationContext());
-
-        /*  端末内部へ確認間隔の保存   */
-        nsd.saveUserGmailAccount(gmailAccount);
-    }
 
     /**
-     * 端末内部への設定値保存メソッド
+     * 端末内部へユーザの設定値を保存する
      */
-    private void saveTimeData(){
+    private void saveUserData(){
         NoticeSaveData nsd = new NoticeSaveData(getApplicationContext());
 
         /*  端末内部へ曜日設定値の保存   */
-        for(int i = 0; i < 7; i++) nsd.saveDayOfWeek(i, dayOfWeekChecks[i]);
+        boolean[] dayOfWeek = dayOfWeekChecks.toBoolArray();
+        for(int i = 0; i < dayOfWeek.length; i++) nsd.saveDayOfWeek(i, dayOfWeek[i]);
 
         /*  端末内部へ確認開始時刻の保存   */
-        nsd.saveStartTime(NoticeUtility.toTimeFormat(startTimeHour, startTimeMinute));
+        nsd.saveStartTime(startTime.toFormat());
 
         /*  端末内部へ確認終了時刻の保存   */
-        nsd.saveEndTime(NoticeUtility.toTimeFormat(endTimeHour, endTimeMinute));
+        nsd.saveEndTime(endTime.toFormat());
 
         /*  端末内部へ確認間隔の保存   */
         nsd.saveCheckInterval(interval);
+
+        /*  端末内部へGmailアカウント名の保存   */
+        nsd.saveUserGmailAccount(accountName);
+    }
+
+    /**
+     * Gmailアカウントを選択した時のコールバックメソッド
+     * @param data Intent
+     */
+    private void onSelectedGmailAccount(Intent data){
+        /** 選択したアカウント名を取得    */
+        accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        if (accountName != null) {
+            Log.d("accountName:", accountName);
+
+            /** 選択したアカウント名をOAuthに設定    */
+            this.credential.setSelectedAccountName(accountName);
+
+            /*  設定表示領域にアカウント名表示    */
+            ResizableTextView tv = (ResizableTextView)findViewById(R.id.text_own_gmail_msg);
+            tv.setText(accountName);
+        }
     }
 
     @Override
@@ -492,20 +452,99 @@ public class SendSettingActivity extends Activity {
             /** Gmailアカウント選択時のコールバック    */
             case REQUEST_ACCOUNT_CHOOSER:
                 if (resultCode == RESULT_OK && data != null) {
-                    /** 選択したアカウント名を取得    */
-                    accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if (accountName != null) {
-                        Log.d("accountName:", accountName);
-
-                        /** 選択したアカウント名をOAuthに設定    */
-                        mCredential.setSelectedAccountName(accountName);
-
-                        /*  設定表示領域にアカウント名表示    */
-                        ResizableTextView tv = (ResizableTextView)findViewById(R.id.text_own_gmail_msg);
-                        tv.setText(accountName);
-                    }
+                    onSelectedGmailAccount(data);
                 }
             break;
+        }
+    }
+
+    /*****************************************************/
+    /** インナークラス                                     */
+    /*****************************************************/
+    /**
+     * 曜日毎の設定状態を格納するクラス（日〜土[0-6]）
+     */
+    private class DayOfWeek extends ArrayList<Boolean>{
+
+        /**
+         * コンストラクタ
+         */
+        DayOfWeek(){
+            addAll(Arrays.asList(new Boolean[7]));
+        }
+
+        /**
+         * 曜日の配列をboolean型の配列で返却する
+         * @return boolean型の曜日毎の設定状態の配列
+         */
+        public boolean[] toBoolArray() {
+
+            boolean boolArray[] = new boolean[7];
+            for(int i = 0; i < boolArray.length; i++){
+                boolArray[i] = super.get(i);
+            }
+
+            return boolArray;
+        }
+    }
+
+    /**
+     * 時刻クラス
+     */
+    private class Time{
+
+        private int hour;   //時間
+        private int minute; //分
+
+        /**
+         * コンストラクタ
+         */
+        Time(){
+           this(0, 0);
+        }
+
+        /**
+         * コンストラクタ
+         * @param hour 時間
+         * @param minute 分
+         */
+        Time(int hour, int minute){
+            this.hour = hour;
+            this.minute = minute;
+        }
+
+        /**
+         * 時間と分を設定する
+         * @param hour 時間
+         * @param minute 分
+         */
+        public void setTime(int hour, int minute){
+            this.hour = hour;
+            this.minute = minute;
+        }
+
+        /**
+         * 時間を取得する
+         * @return 時間
+         */
+        public int getHour(){
+            return hour;
+        }
+
+        /**
+         * 分を取得する
+         * @return 分
+         */
+        public int getMinute(){
+            return minute;
+        }
+
+        /**
+         * 時間と分をhh:mmの書式で返却する
+         * @return フォーマット済み文字列
+         */
+        public String toFormat(){
+            return String.format("%1$02d", hour) + ":" + String.format("%1$02d", minute);
         }
     }
 }

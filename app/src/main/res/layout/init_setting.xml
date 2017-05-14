@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="起動"
+                android:text="@string/text_start"
                 android:id="@+id/textView"
                 android:textSize="25dp"
                 android:gravity="center_vertical"
@@ -72,7 +72,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="On/Off"
+                android:text="@string/switch_onoff"
                 android:textSize="21dp"
                 android:id="@+id/swOnOff"
                 android:nestedScrollingEnabled="true"
@@ -113,7 +113,7 @@
             <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="使い方"
+            android:text="@string/text_usage"
                 android:id="@+id/btnUsage"
                 android:textColor="@android:color/white"
             android:phoneNumber="false"
@@ -142,7 +142,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="送信間隔設定"
+                android:text="@string/text_sendsetting"
                 android:id="@+id/btnSendSetting"
                 android:textSize="25dp"
                 android:textColor="@android:color/white"
@@ -172,7 +172,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="送信先設定"
+                android:text="@string/text_sendto"
                 android:id="@+id/btnInputAddress"
                 android:layout_weight="1.4"
                 android:gravity="center_vertical|center|right"
