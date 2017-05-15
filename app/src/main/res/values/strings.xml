@@ -10,16 +10,50 @@
     <string name="title_activity_usage">UsageActivity</string>
 
     <!--TOP画面-->
+    <string name="text_start">起動</string>
+    <string name="switch_onoff">On/Off</string>
+    <string name="text_usage">使い方</string>
+    <string name="text_sendsetting">送信間隔設定</string>
+    <string name="text_sendto">送信先設定</string>
+
     <string name="toast_message_noticenotice_on">通知機能がONになりました</string>
     <string name="toast_message_noticenotice_off">通知機能がOFFになりました</string>
 
-    <!--設定画面-->
+    <!--アドレス入力画面-->
+    <string name="message_address_input">アドレスを入力してください</string>
+    <string name="message_address_empty">アドレスが空です</string>
+    <string name="button_next">次へ</string>
+
+    <!--パスコード入力画面-->
+    <string name="message_input_passcode">受信したメールに記載されたパスコードを入力してください</string>
+    <string name="message_illegal_passcode">送信されたパスコードと一致しません。</string>
+    <string name="button_top_activity">設定に戻る</string>
+    <string name="button_auth">認証</string>
+
+    <!--メッセージ画面-->
+    <string name="button_send">送信</string>
+    <string name="button_complete">完了</string>
+    <string name="message_sendto_1">へ送信します。</string>
+    <string name="message_sendto_2">よろしいですか？</string>
+    <string name="message_authentication_success">認証が成功しました。</string>
+    <string name="toast_message_passcode_mail_sent">パスコードを記載したメールを送信しました。</string>
+
+    <!--認証メール本文-->
+    <string name="mail_subject_address_setting">[NoticeNotice]メール送信設定認証用パスコード</string>
+    <string name="mail_body_address_setting">"これはあなたの端末への送信先設定用のパスコードになります。\n\n パスコード："</string>
+
+
+    <!--設定画面：表記文字-->
+    <string name="list_item_name_gmail">Gmail</string>
     <string name="list_item_name_dayofweek">曜日指定</string>
-    <string name="list_item_name_starttime">確認開始時刻</string>
-    <string name="list_item_name_endtime">確認終了時刻</string>
+    <string name="list_item_name_starttime">開始時刻</string>
+    <string name="list_item_name_endtime">終了時刻</string>
     <string name="list_item_name_interval">確認間隔</string>
 
-    <!--設定画面:曜日-->
+    <string name="dayofweek_none">none</string>
+    <string name="dayofweek_everyday">everyday</string>
+
+    <!--設定画面:曜日（略記）-->
     <string-array name="noticenotice_dayofweek_setting_display_items">
         <item>日</item>
         <item>月</item>
@@ -30,6 +64,7 @@
         <item>土</item>
     </string-array>
 
+    <!--設定画面:曜日-->
     <string-array name="noticenotice_dayofweek_setting_selectable_items">
         <item>日曜日</item>
         <item>月曜日</item>
@@ -53,9 +88,9 @@
     <string name="hour">時</string>
     <string name="minute">分</string>
     <string name="second">秒</string>
-
     <string name="button_ok">OK</string>
     <string name="button_cancel">キャンセル</string>
+    <string name="button_back">戻る</string>
 
     <!--Gmail送信用アカウント-->
     <string name="mail_subject_notice_send">通知を取得しました</string>

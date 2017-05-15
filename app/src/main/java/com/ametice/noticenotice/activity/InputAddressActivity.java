@@ -112,9 +112,7 @@ public class InputAddressActivity extends Activity {
 
             // 入力が空ならトーストを表示する
             if (inputAddress.length() < 1) {
-                Toast
-                        .makeText(InputAddressActivity.this, "アドレスが空です", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(InputAddressActivity.this, getString(R.string.message_address_empty), Toast.LENGTH_SHORT).show();
 
                 // イベント処理を抜ける
                 return;
